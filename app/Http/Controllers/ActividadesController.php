@@ -55,14 +55,15 @@ class ActividadesController extends Controller {
         $actividad = new Actividades();
         $actividad->fecha = $request->fecha;
         $actividad->asunto = $request->asunto;
-        // $actividad->area_responsable = $request->area_responsable;
         $actividad->area_responsable = Auth::user()->id_area;
         $actividad->actividad = $request->actividad;
         $actividad->status = $request->status;
         $actividad->observaciones = $request->observaciones;
         $actividad->semana = $request->semana;
+        $actividad->tipo_actividad = $request->tipo_actividad;
         $actividad->id_organo = $organo[0]->id;
         $actividad->id_departamento = $id_dpto[0]->id;
+        $actividad->iduser_created = Auth::user()->id;
         $actividad->save();
 
         $responsable = Auth::user()->id_area;

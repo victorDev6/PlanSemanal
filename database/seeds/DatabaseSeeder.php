@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         $organo->save();
 
         $organo = new organo();
-        $organo->descripcion = 'Unidad Ejécutivo';
+        $organo->descripcion = 'Unidad Ejécutiva';
         $organo->id_parent = 2;
         $organo->save();
 
@@ -59,6 +59,11 @@ class DatabaseSeeder extends Seeder
 
         $organo = new organo();
         $organo->descripcion = 'Dirección de Vinculación';
+        $organo->id_parent = 2;
+        $organo->save();
+
+        $organo = new organo();
+        $organo->descripcion = 'Transparencia';
         $organo->id_parent = 2;
         $organo->save();
 
@@ -198,17 +203,7 @@ class DatabaseSeeder extends Seeder
         $organo->save();
 
         $organo = new organo();
-        $organo->descripcion = 'Departamento de Vinculación';
-        $organo->id_parent = 10;
-        $organo->save();
-
-        $organo = new organo();
-        $organo->descripcion = 'Delegación Administrativa';
-        $organo->id_parent = 10;
-        $organo->save();
-
-        $organo = new organo();
-        $organo->descripcion = 'Departamento Académico';
+        $organo->descripcion = 'Auxiliar Transparencia';
         $organo->id_parent = 10;
         $organo->save();
 
@@ -360,6 +355,21 @@ class DatabaseSeeder extends Seeder
         $organo = new organo();
         $organo->descripcion = 'Departamento Académico';
         $organo->id_parent = 20;
+        $organo->save();
+
+        $organo = new organo();
+        $organo->descripcion = 'Departamento de Vinculación';
+        $organo->id_parent = 21;
+        $organo->save();
+
+        $organo = new organo();
+        $organo->descripcion = 'Delegación Administrativa';
+        $organo->id_parent = 21;
+        $organo->save();
+
+        $organo = new organo();
+        $organo->descripcion = 'Departamento Académico';
+        $organo->id_parent = 21;
         $organo->save();
 
         User::create([

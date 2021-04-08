@@ -3,6 +3,14 @@
 
 @section('title', 'Agregar Usuarios')
 
+@section('css')
+    <style>
+        .colorTop { 
+            background-color: #541533;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <div class="container-fluid">
@@ -64,7 +72,7 @@
                             <div class="form-group row">
                                 <label for="rol"
                                     class="col-md-4 col-form-label text-md-right">{{ __('Rol') }}</label>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <select name="rol" id="rol" class="custom-select">
                                         <option value="">--SELECCIONAR--</option>
                                         <option value="0">Areas</option>
@@ -72,6 +80,46 @@
                                         <option value="2">Validadores</option>
                                         <option value="3">Direccion General</option>
                                     </select>
+                                </div> --}}
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" value="Areas" class="custom-control-input settings"
+                                                name="unidades[]" id="Areas">
+                                            <label class="custom-control-label"
+                                                for="Areas">Areas</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" value="Directores" class="custom-control-input settings"
+                                                name="unidades[]" id="Directores">
+                                            <label class="custom-control-label"
+                                                for="Directores">Directores</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" value="Validadores" class="custom-control-input settings"
+                                                name="unidades[]" id="Validadores">
+                                            <label class="custom-control-label"
+                                                for="Validadores">Validadores</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" value="Direccion" class="custom-control-input settings"
+                                                name="unidades[]" id="Direccion">
+                                            <label class="custom-control-label"
+                                                for="Direccion">Direccion General</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

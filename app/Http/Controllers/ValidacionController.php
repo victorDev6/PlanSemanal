@@ -16,22 +16,29 @@ class ValidacionController extends Controller {
         $organo1 = Auth::user()->id_area;
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
         $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
-        /* $actividades = Actividades::Validacion($request->get('area'), $request->get('semana'))
-            ->where('actividades.id_departamento', '=', $organo1)
-            ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
-            ->select('actividades.*', 'organos.descripcion')
-            ->orderByDesc('actividades.id')
-            ->get(); */
+        $actividad2 = $request->actividad2;
 
-        $actividades = Actividades::where('id_departamento', '=', $request->area)
+        if ($actividad2 == null) {
+            $actividades = Actividades::where('id_departamento', '=', $request->area)
+                ->where('semana', '=', $request->semana)
+                ->where('fecha_vToBueno', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_validacion desc')
+                ->get();
+        } else {
+            $actividades = Actividades::where('id_departamento', '=', $request->area)
             ->where('semana', '=', $request->semana)
+            ->where('tipo_actividad', '=', $actividad2)
             ->where('fecha_vToBueno', '!=', null)
-            // ->where('actividades.id_departamento', '=', $organo1)
             ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
             ->select('actividades.*', 'organos.descripcion')
-            ->orderByDesc('actividades.id')
+            // ->orderByDesc('actividades.id')
+            ->orderByRaw('status_validacion desc')
             ->get();
-        return view('layouts.inicioValidacion', compact('organo', 'areas', 'actividades', 'administrativo', 'semana'));
+        }
+        return view('layouts.inicioValidacion', compact('organo', 'areas', 'actividades', 'administrativo', 'semana', 'actividad2'));
     }
 
     public function store(Request $request) {
@@ -50,22 +57,37 @@ class ValidacionController extends Controller {
         $organo1 = Auth::user()->id_area;
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
         $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
+        $actividad2 = $request->tipo_act;
 
-        $actividades = Actividades::where('id_departamento', '=', $request->administrativo)
-            ->where('semana', '=', $request->semana)
-            ->where('fecha_vToBueno', '!=', null)
-            ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
-            ->select('actividades.*', 'organos.descripcion')
-            ->orderByDesc('actividades.id')
-            ->get();
-
-            return view('layouts.inicioValidacion')
-                ->with('organo', $organo)
-                ->with('areas', $areas)
-                ->with('actividades', $actividades)
-                ->with('administrativo', $request->administrativo)
-                ->with('semana', $request->semana)
-                ->with('success', 'ACTIVIDADES ENVIADAS EXITOSAMENTE!');
+        if ($actividad2 == null) {
+            $actividades = Actividades::where('id_departamento', '=', $request->administrativo)
+                ->where('semana', '=', $request->semana)
+                ->where('fecha_vToBueno', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_validacion desc')
+                ->get();
+        } else {
+            $actividades = Actividades::where('id_departamento', '=', $request->administrativo)
+                ->where('semana', '=', $request->semana)
+                ->where('tipo_actividad', '=', $actividad2)
+                ->where('fecha_vToBueno', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_validacion desc')
+                ->get();
+        }
+        
+        return view('layouts.inicioValidacion')
+            ->with('organo', $organo)
+            ->with('areas', $areas)
+            ->with('actividades', $actividades)
+            ->with('administrativo', $request->administrativo)
+            ->with('semana', $request->semana)
+            ->with('actividad2', $actividad2)
+            ->with('success', 'ACTIVIDADES ENVIADAS EXITOSAMENTE!');
 
         // return redirect()->route('validacion.inicio')->with('success', 'ACTIVIDADES ENVIADAS CORRECTAMENTE');
     }

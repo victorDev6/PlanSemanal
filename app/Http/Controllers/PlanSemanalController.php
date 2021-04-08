@@ -10,16 +10,21 @@ use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-class PlanSemanalController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+class PlanSemanalController extends Controller {
+    
     public function index(Request $request) {
-        $areas = DB::table('organos')->where('id_parent', '=', 2)->orWhere('id_parent', '=', 3)->get();
+
+        $organo = Auth::user()->id_organo;
+
+        if ($organo == null) {
+            $areas = DB::table('organos')->where('id_parent', '=', 2)->orWhere('id_parent', '=', 3)->get();
+        } else {
+            $id_area = Auth::user()->id_area;
+            $areas = DB::table('organos')->where('id_parent', '=', $id_area)->get();
+        }
+
         $subAreas = DB::table('organos')->where('id_parent', '=', $request->area)->get();
 
         $lunes = []; $martes = []; $miercoles = []; $jueves = []; $viernes = [];
@@ -66,70 +71,15 @@ class PlanSemanalController extends Controller
         return view('layouts.inicioPlanSemanal', compact('areas', 'subAreas', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'mes', 'direccion', 'semana', 'ejercicio'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id) {
         $date = date('Y-m-d');
         Actividades::where('id', '=', $id)
             ->update([
                 'ind_direccion' => $request->indicaciones,
-                'fecha_direccion' => $date
+                'fecha_direccion' => $date,
+                'iduser_updated' => Auth::user()->id
             ]);
         return back()->withInput()->with('success', 'SE GUARDARON LOS CAMBIOS CORRECTAMENTE');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
-        //
     }
 
     public function reporteSemanal($ejercicio, $mes, $direccion, $semana) {
@@ -139,13 +89,13 @@ class PlanSemanalController extends Controller
         $lunes = []; $martes = []; $miercoles = []; $jueves = []; $viernes = [];
         if ($ejercicio != null){
             $actividades = DB::table('actividades')
-            ->whereYear('fecha', $ejercicio)
-            ->whereMonth('fecha', $mes)
-            ->where('id_departamento', '=', $direccion)
-            ->where('semana', '=', $semana)
-            ->where('fecha_validacion', '!=', null)
-            ->orderByDesc('actividades.id')
-            ->get();
+                ->whereYear('fecha', $ejercicio)
+                ->whereMonth('fecha', $mes)
+                ->where('id_departamento', '=', $direccion)
+                ->where('semana', '=', $semana)
+                ->where('fecha_validacion', '!=', null)
+                ->orderByDesc('actividades.id')
+                ->get();
 
             // recorrer el array y separar por dias
             foreach ($actividades as $actividad) {

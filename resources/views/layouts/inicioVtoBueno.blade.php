@@ -3,6 +3,14 @@
 
 @section('title', 'Visto Bueno Actividades')
 
+@section('css')
+    <style>
+        .colorTop { 
+            background-color: #541533;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <div class="container-fluid">
@@ -39,6 +47,13 @@
                             <input class="form-control" type="number" name="semana" id="semana" placeholder="Semana"
                                 value="{{ $semana }}">
                         </div>
+                        <div class="col-2">
+                            <select name="actividad2" class="form-control" id="actividad2">
+                                <option value="">--SELECCIONAR--</option>
+                                <option {{$actividad2 == 'ACTIVIDAD' ? 'selected' : ''}}  value="ACTIVIDAD">ACTIVIDAD</option>
+                                <option {{$actividad2 == 'PERMISO' ? 'selected' : ''}} value="PERMISO">PERMISO</option>
+                            </select>
+                        </div>
                         <div class="col">
                             <button type="submit" class="btn btn-outline-primary">FILTRAR</button>
                         </div>
@@ -51,6 +66,7 @@
                             <form action="{{route('vtoBueno.enviar', ['semana'=>$actividades[0]->semana])}}" method="post">
                                 @csrf
 
+                                <input class="d-none" id="tipo_act" name="tipo_act" type="text" value="{{$actividad2}}">
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -59,17 +75,19 @@
                                             <th scope="col">Actividad</th>
                                             <th scope="col">Estatus</th>
                                             <th scope="col">Observaciones</th>
+                                            <th scope="col">Tipo</th>
                                             <th scope="col">Semana</th>
                                             <th scope="col">Enviado</th>
                                             <th scope="col">Modificar</th>
                                             <th scope="col">Selección</th>
+                                            <th scope="col">Indicaciones DG</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         @foreach ($areas as $subArea)
                                             <tr>
-                                                <td class="text-center" colspan="9">
+                                                <td class="text-center" colspan="11">
                                                     <strong>{{ $subArea->descripcion }}</strong>
                                                 </td>
                                             </tr>
@@ -81,6 +99,7 @@
                                                         <td>{{ $actividad->actividad }}</td>
                                                         <td>{{ $actividad->status }}</td>
                                                         <td>{{ $actividad->observaciones }}</td>
+                                                        <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                         <td width="40px">{{ $actividad->semana }}</td>
                                                         <td width="40px">
                                                             @if ($actividad->fecha_vToBueno == null)
@@ -93,9 +112,8 @@
                                                             @if ($actividad->fecha_vToBueno == null)
                                                                 {{-- <button onclick="showModal({{$actividad}})" type="button"
                                                                 class="btn btn-outline-info">Modificar</button> --}}
-
                                                                 
-                                                                <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary" 
+                                                                <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
                                                                 data-toggle="modal" data-target="#modalModify">Modificar</button>
                                                             @else
                                                                 No Disponible
@@ -113,6 +131,12 @@
                                                             @else
                                                                 No Disponible
                                                             @endif
+                                                        </td>
+                                                        <td width="140px">
+                                                            @if ($actividad->ind_direccion != null)
+                                                                {{ $actividad->ind_direccion }}
+                                                            @endif
+                                                            {{-- {{ $actividad->ind_direccion }} --}}
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -132,7 +156,7 @@
                         @else
                             <div class="row mt-5">
                                 <div class="col text-center">
-                                    <h4>Sin Actividades Registradas</h4>
+                                    <h5><strong>Sin Actividades Registradas</strong></h5>
                                 </div>
                             </div>
                         @endif
@@ -152,6 +176,7 @@
                     <form action="{{route('vtoBueno.editar')}}" method="post">
                         @csrf
 
+                        <input class="d-none" id="tipo_activi" name="tipo_activi" type="text" value="{{$actividad2}}">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Modificación de actividad</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -184,6 +209,14 @@
                                     <option value="TERMINADO">TERMINADO</option>
                                 </select>
                             </div>
+
+                            <div class="form-group col">
+                                <label for="tipo_actividad" class="control-label">Tipo de actividad</label>
+                                <select name="tipo_actividad" class="form-control" id="tipo_actividad">
+                                    <option value="ACTIVIDAD">ACTIVIDAD</option>
+                                    <option value="PERMISO">PERMISO</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -207,6 +240,7 @@
             $('#observaciones').val(actividad['observaciones']);
             $('#semanaF').val(actividad['semana']);
             $('#status').val(actividad['status']);
+            $('#tipo_actividad').val(actividad['tipo_actividad']);
         }
 
     </script>

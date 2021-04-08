@@ -192,13 +192,14 @@
                                 <th scope="col"><small>Actividad</small></th>
                                 <th scope="col"><small>Estatus</small></th>
                                 <th scope="col"><small>Observaciones</small></th>
+                                <th scope="col"><small>Tipo</small></th>
                                 <th scope="col"><small>Indicaciones</small></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($subAreas as $subArea)
                                 <tr>
-                                    <td colspan="6"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
+                                    <td colspan="7"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
                                 </tr>
                                 @foreach ($lunes as $actividad)
                                     @if ($subArea->id == $actividad->area_responsable)
@@ -208,6 +209,7 @@
                                             <td scope="col"><small>{{ $actividad->actividad }}</small></td>
                                             <td width="100px"><small>{{ $actividad->status }}</small></td>
                                             <td><small>{{ $actividad->observaciones }}</small></td>
+                                            <td width="100px" ><small>{{ $actividad->tipo_actividad }}</small></td>
                                             <td><small>{{ $actividad->ind_direccion }}</small></td>
                                         </tr>
                                     @endif
@@ -217,9 +219,9 @@
                     </table>
                 @else
                     <div class="mt-3">
-                    <div class="col d-flex justify-content-center">
-                    <strong>Sin Actividades registradas</strong>
-                    </div>
+                        <div class="col d-flex justify-content-center">
+                            <strong><small>Sin Actividades Registradas</small></strong>
+                        </div>
                     </div>
                 @endif
             @elseif ($i == 1)
@@ -233,13 +235,14 @@
                                 <th scope="col"><small>Actividad</small></th>
                                 <th scope="col"><small>Estatus</small></th>
                                 <th scope="col"><small>Observaciones</small></th>
+                                <th scope="col"><small>Tipo</small></th>
                                 <th scope="col"><small>Indicaciones</small></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($subAreas as $subArea)
                                 <tr>
-                                    <td colspan="6"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
+                                    <td colspan="7"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
                                 </tr>
                                 @foreach ($martes as $actividad)
                                     @if ($subArea->id == $actividad->area_responsable)
@@ -249,6 +252,7 @@
                                             <td scope="col"><small>{{ $actividad->actividad }}</small></td>
                                             <td width="100px"><small>{{ $actividad->status }}</small></td>
                                             <td><small>{{ $actividad->observaciones }}</small></td>
+                                            <td width="100px" ><small>{{ $actividad->tipo_actividad }}</small></td>
                                             <td><small>{{ $actividad->ind_direccion }}</small></td>
                                         </tr>
                                     @endif
@@ -259,7 +263,7 @@
                 @else
                     <div class="mt-3">
                         <div class="col d-flex justify-content-center">
-                            <strong>Sin Actividades registradas</strong>
+                            <strong><small>Sin Actividades Registradas</small></strong>
                         </div>
                     </div>
                 @endif
@@ -274,13 +278,14 @@
                                 <th scope="col"><small>Actividad</small></th>
                                 <th scope="col"><small>Estatus</small></th>
                                 <th scope="col"><small>Observaciones</small></th>
+                                <th scope="col"><small>Tipo</small></th>
                                 <th scope="col"><small>Indicaciones</small></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($subAreas as $subArea)
                                 <tr>
-                                    <td colspan="6"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
+                                    <td colspan="7"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
                                 </tr>
                                 @foreach ($miercoles as $actividad)
                                     @if ($subArea->id == $actividad->area_responsable)
@@ -290,6 +295,7 @@
                                             <td scope="col"><small>{{ $actividad->actividad }}</small></td>
                                             <td width="100px"><small>{{ $actividad->status }}</small></td>
                                             <td><small>{{ $actividad->observaciones }}</small></td>
+                                            <td width="100px" ><small>{{ $actividad->tipo_actividad }}</small></td>
                                             <td><small>{{ $actividad->ind_direccion }}</small></td>
                                         </tr>
                                     @endif
@@ -300,7 +306,7 @@
                 @else
                     <div class="mt-3">
                         <div class="col d-flex justify-content-center">
-                            <strong>Sin Actividades registradas</strong>
+                            <strong><small>Sin Actividades Registradas</small></strong>
                         </div>
                     </div>
                 @endif
@@ -315,13 +321,14 @@
                                 <th scope="col"><small>Actividad</small></th>
                                 <th scope="col"><small>Estatus</small></th>
                                 <th scope="col"><small>Observaciones</small></th>
+                                <th scope="col"><small>Tipo</small></th>
                                 <th scope="col"><small>Indicaciones</small></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($subAreas as $subArea)
                                 <tr>
-                                    <td colspan="6"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
+                                    <td colspan="7"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
                                 </tr>
                                 @foreach ($jueves as $actividad)
                                     @if ($subArea->id == $actividad->area_responsable)
@@ -331,6 +338,7 @@
                                             <td scope="col"><small>{{ $actividad->actividad }}</small></td>
                                             <td width="100px"><small>{{ $actividad->status }}</small></td>
                                             <td><small>{{ $actividad->observaciones }}</small></td>
+                                            <td width="100px" ><small>{{ $actividad->tipo_actividad }}</small></td>
                                             <td><small>{{ $actividad->ind_direccion }}</small></td>
                                         </tr>
                                     @endif
@@ -341,7 +349,7 @@
                 @else
                     <div class="mt-3">
                         <div class="col d-flex justify-content-center">
-                            <strong>Sin Actividades registradas</strong>
+                            <strong><small>Sin Actividades Registradas</small></strong>
                         </div>
                     </div>
                 @endif
@@ -356,13 +364,14 @@
                                 <th scope="col"><small>Actividad</small></th>
                                 <th scope="col"><small>Estatus</small></th>
                                 <th scope="col"><small>Observaciones</small></th>
+                                <th scope="col"><small>Tipo</small></th>
                                 <th scope="col"><small>Indicaciones</small></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($subAreas as $subArea)
                                 <tr>
-                                    <td colspan="6"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
+                                    <td colspan="7"><strong><small>{{ $subArea->descripcion }}</small></strong></td>
                                 </tr>
                                 @foreach ($viernes as $actividad)
                                     @if ($subArea->id == $actividad->area_responsable)
@@ -372,6 +381,7 @@
                                             <td scope="col"><small>{{ $actividad->actividad }}</small></td>
                                             <td width="100px"><small>{{ $actividad->status }}</small></td>
                                             <td><small>{{ $actividad->observaciones }}</small></td>
+                                            <td width="100px" ><small>{{ $actividad->tipo_actividad }}</small></td>
                                             <td><small>{{ $actividad->ind_direccion }}</small></td>
                                         </tr>
                                     @endif
@@ -382,7 +392,7 @@
                 @else
                     <div class="mt-3">
                         <div class="col d-flex justify-content-center">
-                            <strong>Sin Actividades registradas</strong>
+                            <strong><small>Sin Actividades Registradas</small></strong>
                         </div>
                     </div>
                 @endif

@@ -3,15 +3,17 @@
 
 @section('title', 'Agregar Actividades')
 
+@section('css')
+    <style>
+        .colorTop { 
+            background-color: #541533;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <div class="container-fluid">
-
-        {{-- @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif --}}
 
         @if(!empty($success))
             <div class="alert alert-success"> {{ $success }}</div>
@@ -95,6 +97,15 @@
                             </select>
                         </div>
 
+                        <div class="form-group col">
+                            <label for="tipo_actividad" class="control-label">Tipo de actividad</label>
+                            <select name="tipo_actividad" class="form-control" id="tipo_actividad">
+                                <option value="">Seleccione</option>
+                                <option value="ACTIVIDAD">ACTIVIDAD</option>
+                                <option value="PERMISO">PERMISO</option>
+                            </select>
+                        </div>
+
                         <div class="form-group col-1 mt-2">
                             <button type="submit" class="btn btn-primary">Agregar</button>
                         </div>
@@ -103,116 +114,125 @@
 
                 <hr>
                 <div class="row">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Asunto</th>
-                                <th scope="col">Área responsable</th>
-                                <th scope="col">Actividad</th>
-                                <th scope="col">Estatus</th>
-                                <th scope="col">Observaciones</th>
-                                <th scope="col">Semana</th>
-                                <th scope="col">Enviado</th>
-                                <th scope="col">Opción</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {{-- <tr>
-                                <form id="formAddActivity" action="{{ route('actividades.store') }}"
-                                    method="post">
-                                    @csrf
-
-                                    <td>
-                                        <input type='text' id="fecha" autocomplete="off" readonly="readonly" name="fecha"
-                                            class="form-control datepicker" required>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="asunto" name="asunto"
-                                            placeholder="Asunto">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="area_responsable"
-                                            name="area_responsable" placeholder="Área Responsable">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="actividad" name="actividad"
-                                            placeholder="Actividad">
-                                    </td>
-                                    <td>
-                                        <select name="status" class="form-control" id="status">
-                                            <option value="">Seleccione</option>
-                                            <option value="INICIADO">INICIADO</option>
-                                            <option value="EN PROCESO">EN PROCESO</option>
-                                            <option value="TERMINADO">TERMINADO</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="observaciones" name="observaciones"
-                                            placeholder="Observaciones">
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" id="semana" name="semana"
-                                            placeholder="Semana">
-                                    </td>
-                                    <td><button type="submit" class="btn btn-primary">Agregar</button></td>
-                                </form>
-                            </tr> --}}
-
-                            @foreach ($actividades as $actividad)
+                    @if (!$actividades->isEmpty())
+                        <table class="table table-bordered table-striped">
+                            <thead>
                                 <tr>
-                                    <form id="formStatus_{{ $actividad->id }}"
-                                        action="{{ route('actividades.editar', ['id' => $actividad->id, 'semana'=>$actividad->semana]) }}" method="post">
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Asunto</th>
+                                    <th scope="col">Área responsable</th>
+                                    <th scope="col">Actividad</th>
+                                    <th scope="col">Estatus</th>
+                                    <th scope="col">Observaciones</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Semana</th>
+                                    <th scope="col">Enviado</th>
+                                    <th scope="col">Opción</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{-- <tr>
+                                    <form id="formAddActivity" action="{{ route('actividades.store') }}"
+                                        method="post">
                                         @csrf
 
-                                        <td width="100px">{{ $actividad->fecha }}</td>
-                                        <td>{{ $actividad->asunto }}</td>
-                                        <td>{{ $actividad->descripcion }}</td>
-                                        <td>{{ $actividad->actividad }}</td>
-                                        <td width="170px">
-                                            <select name="{{ $actividad->id }}" id="{{ $actividad->id }}"
-                                                class="form-control">
-                                                <option {{ $actividad->status == 'INICIADO' ? 'selected' : '' }}
-                                                    value="INICIADO">INICIADO</option>
-                                                <option {{ $actividad->status == 'EN PROCESO' ? 'selected' : '' }}
-                                                    value="EN PROCESO">EN PROCESO</option>
-                                                <option {{ $actividad->status == 'TERMINADO' ? 'selected' : '' }}
-                                                    value="TERMINADO">TERMINADO</option>
+                                        <td>
+                                            <input type='text' id="fecha" autocomplete="off" readonly="readonly" name="fecha"
+                                                class="form-control datepicker" required>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="asunto" name="asunto"
+                                                placeholder="Asunto">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="area_responsable"
+                                                name="area_responsable" placeholder="Área Responsable">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="actividad" name="actividad"
+                                                placeholder="Actividad">
+                                        </td>
+                                        <td>
+                                            <select name="status" class="form-control" id="status">
+                                                <option value="">Seleccione</option>
+                                                <option value="INICIADO">INICIADO</option>
+                                                <option value="EN PROCESO">EN PROCESO</option>
+                                                <option value="TERMINADO">TERMINADO</option>
                                             </select>
                                         </td>
-                                        <td>{{ $actividad->observaciones }}</td>
-                                        <td width="40px">{{ $actividad->semana }}</td>
-                                        <td width="40px">
-                                            @if ($actividad->fecha_enviado == null)
-                                                NO
-                                            @else
-                                                SI
-                                            @endif
+                                        <td>
+                                            <input type="text" class="form-control" id="observaciones" name="observaciones"
+                                                placeholder="Observaciones">
                                         </td>
-                                        <td width="120px">
-                                            @if ($actividad->fecha_enviado == null)
-                                                <div class="row d-flex justify-content-center">
-                                                    <a class="btn btn-info btn-circle m-1 btn-circle-sm" title="Modificar"
-                                                        href="#"
-                                                        onclick="document.getElementById('formStatus_' + {{ $actividad->id }}).submit()">
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                    </a>
-
-                                                    <a class="btn btn-danger btn-circle m-1 btn-circle-sm" title="Eliminar"
-                                                        href="{{ route('actividades.destroy', ['id'=>$actividad->id, 'semana'=>$actividad->semana]) }}">
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </a>
-                                                </div>
-                                            @else
-                                                NO DISPONIBLE
-                                            @endif
+                                        <td>
+                                            <input type="number" class="form-control" id="semana" name="semana"
+                                                placeholder="Semana">
                                         </td>
+                                        <td><button type="submit" class="btn btn-primary">Agregar</button></td>
                                     </form>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                </tr> --}}
+
+                                @foreach ($actividades as $actividad)
+                                    <tr>
+                                        <form id="formStatus_{{ $actividad->id }}"
+                                            action="{{ route('actividades.editar', ['id' => $actividad->id, 'semana'=>$actividad->semana]) }}" method="post">
+                                            @csrf
+
+                                            <td width="100px">{{ $actividad->fecha }}</td>
+                                            <td>{{ $actividad->asunto }}</td>
+                                            <td>{{ $actividad->descripcion }}</td>
+                                            <td>{{ $actividad->actividad }}</td>
+                                            <td width="170px">
+                                                <select name="{{ $actividad->id }}" id="{{ $actividad->id }}"
+                                                    class="form-control">
+                                                    <option {{ $actividad->status == 'INICIADO' ? 'selected' : '' }}
+                                                        value="INICIADO">INICIADO</option>
+                                                    <option {{ $actividad->status == 'EN PROCESO' ? 'selected' : '' }}
+                                                        value="EN PROCESO">EN PROCESO</option>
+                                                    <option {{ $actividad->status == 'TERMINADO' ? 'selected' : '' }}
+                                                        value="TERMINADO">TERMINADO</option>
+                                                </select>
+                                            </td>
+                                            <td>{{ $actividad->observaciones }}</td>
+                                            <td width="100px" >{{ $actividad->tipo_actividad }}</td>
+                                            <td width="40px">{{ $actividad->semana }}</td>
+                                            <td width="40px">
+                                                @if ($actividad->fecha_enviado == null)
+                                                    NO
+                                                @else
+                                                    SI
+                                                @endif
+                                            </td>
+                                            <td width="120px">
+                                                @if ($actividad->fecha_enviado == null)
+                                                    <div class="row d-flex justify-content-center">
+                                                        <a class="btn btn-info btn-circle m-1 btn-circle-sm" title="Modificar"
+                                                            href="#"
+                                                            onclick="document.getElementById('formStatus_' + {{ $actividad->id }}).submit()">
+                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                        </a>
+
+                                                        <a class="btn btn-danger btn-circle m-1 btn-circle-sm" title="Eliminar"
+                                                            href="{{ route('actividades.destroy', ['id'=>$actividad->id, 'semana'=>$actividad->semana]) }}">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    NO DISPONIBLE
+                                                @endif
+                                            </td>
+                                        </form>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                    <div class="col text-center">
+                        <h5><strong>Sin Actividades Registradas</strong></h5>
+                    </div>
+                    @endif
+                    
                 </div>
             </div>
         </div>
@@ -298,6 +318,9 @@
                 },
                 semana: {
                     required: true
+                },
+                tipo_actividad: {
+                    required: true
                 }
             },
             messages: {
@@ -320,6 +343,9 @@
                     required: 'Campo requerido'
                 },
                 semana: {
+                    required: 'Campo requerido'
+                },
+                tipo_actividad: {
                     required: 'Campo requerido'
                 }
             }

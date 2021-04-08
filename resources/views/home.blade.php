@@ -3,6 +3,14 @@
 
 @section('title', 'Menu')
 
+@section('css')
+    <style>
+        .colorTop { 
+            background-color: #541533;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center mt-5">

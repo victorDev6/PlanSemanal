@@ -3,6 +3,14 @@
 
 @section('title', 'Plan Semanal')
 
+@section('css')
+    <style>
+        .colorTop { 
+            background-color: #541533;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <div class="container-fluid">
@@ -114,6 +122,7 @@
                                                 <th scope="col">Actividad</th>
                                                 <th scope="col">Estatus</th>
                                                 <th scope="col">Observaciones</th>
+                                                <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
                                                 <th scope="col">Enviar</th>
                                             </tr>
@@ -136,6 +145,7 @@
                                                                 <td>{{ $actividad->actividad }}</td>
                                                                 <td width="120px">{{ $actividad->status }}</td>
                                                                 <td>{{ $actividad->observaciones }}</td>
+                                                                <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
                                                                     <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
@@ -170,6 +180,7 @@
                                                 <th scope="col">Actividad</th>
                                                 <th scope="col">Estatus</th>
                                                 <th scope="col">Observaciones</th>
+                                                <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
                                                 <th scope="col">Enviar</th>
                                             </tr>
@@ -192,6 +203,7 @@
                                                                 <td>{{ $actividad->actividad }}</td>
                                                                 <td width="120px">{{ $actividad->status }}</td>
                                                                 <td>{{ $actividad->observaciones }}</td>
+                                                                <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
                                                                     <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
@@ -226,6 +238,7 @@
                                                 <th scope="col">Actividad</th>
                                                 <th scope="col">Estatus</th>
                                                 <th scope="col">Observaciones</th>
+                                                <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
                                                 <th scope="col">Enviar</th>
                                             </tr>
@@ -248,6 +261,7 @@
                                                                 <td>{{ $actividad->actividad }}</td>
                                                                 <td width="120px">{{ $actividad->status }}</td>
                                                                 <td>{{ $actividad->observaciones }}</td>
+                                                                <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
                                                                     <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
@@ -282,6 +296,7 @@
                                                 <th scope="col">Actividad</th>
                                                 <th scope="col">Estatus</th>
                                                 <th scope="col">Observaciones</th>
+                                                <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
                                                 <th scope="col">Enviar</th>
                                             </tr>
@@ -304,6 +319,7 @@
                                                                 <td>{{ $actividad->actividad }}</td>
                                                                 <td width="120px">{{ $actividad->status }}</td>
                                                                 <td>{{ $actividad->observaciones }}</td>
+                                                                <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
                                                                     <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
@@ -338,6 +354,7 @@
                                                 <th scope="col">Actividad</th>
                                                 <th scope="col">Estatus</th>
                                                 <th scope="col">Observaciones</th>
+                                                <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
                                                 <th scope="col">Enviar</th>
                                             </tr>
@@ -360,6 +377,7 @@
                                                                 <td>{{ $actividad->actividad }}</td>
                                                                 <td width="120px">{{ $actividad->status }}</td>
                                                                 <td>{{ $actividad->observaciones }}</td>
+                                                                <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
                                                                     <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"

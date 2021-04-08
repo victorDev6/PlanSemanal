@@ -10,7 +10,7 @@ class Actividades extends Model {
 
     protected $fillable = [
         'id', 'fecha', 'asunto', 'area_responsable', 'actividad', 'status', 'observaciones', 'semana', 
-        'fecha_enviado', 'id_organo', 'id_departamento'
+        'fecha_enviado', 'tipo_actividad', 'id_organo', 'id_departamento'
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

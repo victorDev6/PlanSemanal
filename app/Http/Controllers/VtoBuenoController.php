@@ -8,27 +8,42 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class VtoBuenoController extends Controller {
+
     public function index(Request $request) {
-        //
-        // dd(Auth::user()->id_area);
         $organo1 = Auth::user()->id_area;
+        if ($organo1 == 3) {
+            $organo1 = 5;
+        }
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
         $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
         $semana = $request->semana;
+        $actividad2 = $request->actividad2;
 
-        $actividades = Actividades::where('id_departamento', '=', $organo1)
-            ->where('semana', '=', $request->semana)
-            ->where('fecha_enviado', '!=', null)
-            ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
-            ->select('actividades.*', 'organos.descripcion')
-            ->orderByDesc('actividades.id')
-            ->get();
+        if ($actividad2 == null) {
+            $actividades = Actividades::where('id_departamento', '=', $organo1)
+                ->where('semana', '=', $request->semana)
+                ->where('fecha_enviado', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_vtoBueno desc')
+                ->get();
+        } else {
+            $actividades = Actividades::where('id_departamento', '=', $organo1)
+                ->where('semana', '=', $request->semana)
+                ->where('tipo_actividad', '=', $actividad2)
+                ->where('fecha_enviado', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_vtoBueno desc')
+                ->get();
+        }
 
-        return view('layouts.inicioVtoBueno', compact('organo', 'areas', 'semana', 'actividades'));
+        return view('layouts.inicioVtoBueno', compact('organo', 'areas', 'semana', 'actividades', 'actividad2'));
     }
 
     public function store(Request $request, $semana) {
-
         if ($request->actividades != null) {
             $date = date('Y-m-d');
             foreach ($request->actividades as $actividad) {
@@ -41,22 +56,39 @@ class VtoBuenoController extends Controller {
         }
 
         $organo1 = Auth::user()->id_area;
+        if ($organo1 == 3) {
+            $organo1 = 5;
+        }
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
         $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
+        $actividad2 = $request->tipo_act;
 
-        $actividades = Actividades::where('id_departamento', '=', $organo1)
-            ->where('semana', '=', $semana)
-            ->where('fecha_enviado', '!=', null)
-            ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
-            ->select('actividades.*', 'organos.descripcion')
-            ->orderByDesc('actividades.id')
-            ->get();
+        if ($actividad2 == null) {
+            $actividades = Actividades::where('id_departamento', '=', $organo1)
+                ->where('semana', '=', $semana)
+                ->where('fecha_enviado', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_vtoBueno desc')
+                ->get();
+        } else {
+            $actividades = Actividades::where('id_departamento', '=', $organo1)
+                ->where('semana', '=', $semana)
+                ->where('tipo_actividad', '=', $actividad2)
+                ->where('fecha_enviado', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                ->orderByDesc('actividades.id')
+                ->get();
+        }
 
         return view('layouts.inicioVtoBueno')
             ->with('organo', $organo)
             ->with('areas', $areas)
             ->with('semana', $semana)
             ->with('actividades', $actividades)
+            ->with('actividad2', $actividad2)
             ->with('success', 'ACTIVIDADES ENVIADAS EXITOSAMENTE!');
 
         // return redirect()->route('vtoBueno.inicio')->with('success', 'ACTIVIDADES ENVIADAS EXITOSAMENTE!');
@@ -69,27 +101,46 @@ class VtoBuenoController extends Controller {
                 'actividad' => $request->actividad,
                 'observaciones' => $request->observaciones,
                 'semana' => $request->semanaF,
-                'status' => $request->status
+                'status' => $request->status,
+                'tipo_actividad' =>$request->tipo_actividad
             ]);
         
         $organo1 = Auth::user()->id_area;
+        if ($organo1 == 3) {
+            $organo1 = 5;
+        }
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
         $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
         $semana = $request->semanaF;
+        $actividad2 = $request->tipo_activi;
 
-        $actividades = Actividades::where('id_departamento', '=', $organo1)
-            ->where('semana', '=', $semana)
-            ->where('fecha_enviado', '!=', null)
-            ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
-            ->select('actividades.*', 'organos.descripcion')
-            ->orderByDesc('actividades.id')
-            ->get();
+        if ($actividad2 == null){
+            $actividades = Actividades::where('id_departamento', '=', $organo1)
+                ->where('semana', '=', $semana)
+                ->where('fecha_enviado', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_vtoBueno desc')
+                ->get();
+        } else {
+            $actividades = Actividades::where('id_departamento', '=', $organo1)
+                ->where('semana', '=', $semana)
+                ->where('tipo_actividad', '=', $actividad2)
+                ->where('fecha_enviado', '!=', null)
+                ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
+                ->select('actividades.*', 'organos.descripcion')
+                // ->orderByDesc('actividades.id')
+                ->orderByRaw('status_vtoBueno desc')
+                ->get();
+        }
 
         return view('layouts.inicioVtoBueno')
                 ->with('organo', $organo)
                 ->with('areas', $areas)
                 ->with('semana', $semana)
                 ->with('actividades', $actividades)
+                ->with('actividad2', $actividad2)
                 ->with('success', 'ACTIVIDAD MODIFICADA EXITOSAMENTE!');
 
         // return redirect()->route('vtoBueno.inicio')->with('success', 'ACTIVIDAD MODIFICADA EXITOSAMENTE');

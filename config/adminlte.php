@@ -127,12 +127,14 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-primary elevation-4 ',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'colorTop navbar-dark',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
+    // colorTop
+    // navbar-white navbar-light
     /*
     |--------------------------------------------------------------------------
     | Sidebar
@@ -236,30 +238,35 @@ return [
             'route'  => 'actividades.inicio',
             'icon' => 'fa fa-tasks',
             'can' => 'actividades.inicio',
+            'icon_color' => 'color_icono'
         ],
         [
             'text' => 'Visto Bueno de Actividades',
             'route'  => 'vtoBueno.inicio',
             'icon' => 'fa fa-check-circle-o',
             'can' => 'vtoBueno.inicio',
+            'icon_color' => 'color_icono'
         ],
         [
             'text' => 'Validación de Actividades',
             'route'  => 'validacion.inicio',
             'icon' => 'fa fa-check-circle',
             'can' => 'validacion.inicio',
+            'icon_color' => 'color_icono'
         ],
         [
             'text' => 'Plan Semanal',
             'route'  => 'plan.inicio',
             'icon' => 'fa fa-calendar-o',
-            'can' => 'plan.inicio'
+            'can' => 'plan.inicio',
+            'icon_color' => 'color_icono'
         ],
         [
             'text' => 'Agregar Usuario',
             'route'  => 'registro.inicio',
             'icon' => 'fa fa-user',
             'can' => 'registro.inicio',
+            'icon_color' => 'color_icono'
         ],
         /* [
             'text'        => 'pages',
@@ -488,7 +495,6 @@ return [
                     'asset' => false,
                     'location' => 'https://use.fontawesome.com/releases/v5.15.2/css/v4-shims.css',
                 ],
-                
             ],
         ],
     ],

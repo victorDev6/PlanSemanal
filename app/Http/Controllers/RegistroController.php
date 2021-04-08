@@ -15,7 +15,7 @@ class RegistroController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $organos = DB::table('organos')->get();
+        $organos = DB::table('organos')->where('id', '!=', 5) ->get();
         return view('layouts.registro', compact('organos'));
     }
 
@@ -36,7 +36,7 @@ class RegistroController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-
+        
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'organo' => ['required'],
@@ -51,21 +51,6 @@ class RegistroController extends Controller
             $id_parent = null;
         }
 
-        switch ($request->rol) {
-            case 0:
-                $rol = 'Areas';
-                break;
-            case 1:
-                $rol = 'Directores';
-                break;
-            case 2:
-                $rol = 'Validadores';
-                break;
-            case 3:
-                $rol = 'Direccion';
-                break;
-        }
-
         User::create([
             'name' => $request->name,
             'id_organo' => $id_parent,
@@ -73,7 +58,7 @@ class RegistroController extends Controller
             'telefono' => $request->telefono,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ])->assignRole($rol);
+        ])->assignRole($request->unidades);
 
         return redirect()->route('registro.inicio')->with('success', 'Usuario Agregado Exitosamente');
     }

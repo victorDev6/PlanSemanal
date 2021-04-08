@@ -23,6 +23,7 @@ class CreateActividadesTable extends Migration
             $table->text('observaciones')->nullable();
             $table->integer('semana');
             $table->date('fecha_enviado')->nullable();
+            $table->string('tipo_actividad');
             $table->unsignedBigInteger('id_organo');
             $table->unsignedBigInteger('id_departamento');
 
@@ -39,6 +40,11 @@ class CreateActividadesTable extends Migration
             $table->foreign('id_organo')->references('id')->on('organos');
             $table->foreign('area_responsable')->references('id')->on('organos');
             $table->foreign('id_departamento')->references('id')->on('organos');
+
+            $table->unsignedBigInteger('iduser_created')->nullable();
+            $table->unsignedBigInteger('iduser_updated')->nullable();
+            $table->foreign('iduser_created')->references('id')->on('users');
+            $table->foreign('iduser_updated')->references('id')->on('users');
             $table->timestamps();
         });
     }
