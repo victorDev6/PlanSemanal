@@ -14,15 +14,13 @@
 @section('content')
 
     <div class="container-fluid">
-        {{-- @if ($message = Session::get('success'))
+        @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
             </div>
-        @endif --}}
-
-        @if(!empty($success))
-            <div class="alert alert-success"> {{ $success }}</div>
         @endif
+
+        
 
         <div class="card">
             <div class="card-header">

@@ -15,16 +15,13 @@ use Illuminate\Support\Facades\Auth;
 class PlanSemanalController extends Controller {
     
     public function index(Request $request) {
-
         $organo = Auth::user()->id_organo;
-
         if ($organo == null) {
             $areas = DB::table('organos')->where('id_parent', '=', 2)->orWhere('id_parent', '=', 3)->get();
         } else {
             $id_area = Auth::user()->id_area;
             $areas = DB::table('organos')->where('id_parent', '=', $id_area)->get();
         }
-
         $subAreas = DB::table('organos')->where('id_parent', '=', $request->area)->get();
 
         $lunes = []; $martes = []; $miercoles = []; $jueves = []; $viernes = [];
@@ -40,8 +37,6 @@ class PlanSemanalController extends Controller {
             ->where('id_departamento', '=', $request->area)
             ->where('semana', '=', $request->semana)
             ->where('fecha_validacion', '!=', null)
-            // ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
-            // ->select('actividades.*', 'organos.descripcion')
             ->orderByDesc('actividades.id')
             ->get();
 

@@ -15,8 +15,10 @@
 
     <div class="container-fluid">
 
-        @if(!empty($success))
-            <div class="alert alert-success"> {{ $success }}</div>
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
         @endif
 
         <div class="card">
