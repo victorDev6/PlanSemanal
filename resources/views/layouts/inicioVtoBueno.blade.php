@@ -20,8 +20,6 @@
             </div>
         @endif
 
-        
-
         <div class="card">
             <div class="card-header">
                 VALIDACIÓN DE ACTIVIDADES POR ÓRGANO ADMINISTRATIVO
@@ -108,9 +106,10 @@
                                                         </td>
                                                         <td width="50px">
                                                             @if ($actividad->fecha_vToBueno == null)
-                                                                {{-- <button onclick="showModal({{$actividad}})" type="button"
-                                                                class="btn btn-outline-info">Modificar</button> --}}
-                                                                
+                                                                <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
+                                                                data-toggle="modal" data-target="#modalModify">Modificar</button>
+
+                                                            @elseif($actividad->mostrar != null && str_contains($actividad->mostrar, 'Director'))
                                                                 <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
                                                                 data-toggle="modal" data-target="#modalModify">Modificar</button>
                                                             @else
@@ -131,10 +130,16 @@
                                                             @endif
                                                         </td>
                                                         <td width="140px">
-                                                            @if ($actividad->ind_direccion != null)
+                                                            @if ($actividad->mostrar != null)
+                                                                @if ( str_contains($actividad->mostrar, 'Director'))
+                                                                    {{ $actividad->ind_direccion }}
+                                                                @else
+                                                                    <small>Permiso no otorgado</small>
+                                                                @endif
+                                                            @else
                                                                 {{ $actividad->ind_direccion }}
                                                             @endif
-                                                            {{-- {{ $actividad->ind_direccion }} --}}
+                                                            
                                                         </td>
                                                     </tr>
                                                 @endif

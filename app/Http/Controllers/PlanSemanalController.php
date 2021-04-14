@@ -63,16 +63,34 @@ class PlanSemanalController extends Controller {
             }
         }
 
-        return view('layouts.inicioPlanSemanal', compact('areas', 'subAreas', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'mes', 'direccion', 'semana', 'ejercicio'));
+        return view('layouts.inicioPlanSemanal', compact('areas', 'subAreas', 'lunes', 'martes', 'miercoles', 'jueves', 
+            'viernes', 'mes', 'direccion', 'semana', 'ejercicio', 'organo'));
     }
 
     public function update(Request $request, $id) {
+
+        $mostrar = [];
+        $organo = Auth::user()->id_organo;
+
+        if ($organo == null) { //inicio sesion direccion general
+            if ($request->views != null) {
+                foreach ($request->views as $view) {
+                    $mostrar[] = $view;
+                }
+            }
+        } else {
+            $mostrar[] = 'Director';
+            $mostrar[] = 'Validador';
+        }
+        
+
         $date = date('Y-m-d');
         Actividades::where('id', '=', $id)
             ->update([
                 'ind_direccion' => $request->indicaciones,
                 'fecha_direccion' => $date,
-                'iduser_updated' => Auth::user()->id
+                'iduser_updated' => Auth::user()->id,
+                'mostrar' => $mostrar
             ]);
         return back()->withInput()->with('success', 'SE GUARDARON LOS CAMBIOS CORRECTAMENTE');
     }

@@ -268,6 +268,12 @@ return [
             'can' => 'registro.inicio',
             'icon_color' => 'color_icono'
         ],
+        [
+            'text' => 'Cambiar Contraseña',
+            'route'  => 'password.inicio',
+            'icon' => 'fa fa-lock',
+            'icon_color' => 'color_icono'
+        ],
         /* [
             'text'        => 'pages',
             'url'         => 'admin/pages',

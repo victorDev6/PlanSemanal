@@ -40,3 +40,6 @@ Route::get('/plan/reporte/{ejercicio}/{mes}/{direccion}/{semana}', 'PlanSemanalC
 
 Route::get('/Registro/inicio', 'RegistroController@index')->name('registro.inicio');
 Route::post('/Registro/enviar', 'RegistroController@store')->name('registro.enviar');
+
+Route::get('/Password/inicio', 'PasswordController@index')->name('password.inicio');
+Route::post('/Password/enviar', 'PasswordController@store')->name('password.enviar');

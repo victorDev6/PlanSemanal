@@ -35,6 +35,7 @@ class CreateActividadesTable extends Migration
 
             $table->text('obs_direccion')->nullable();
             $table->text('ind_direccion')->nullable();
+            $table->text('mostrar')->nullable();
             $table->date('fecha_direccion')->nullable();
 
             $table->foreign('id_organo')->references('id')->on('organos');

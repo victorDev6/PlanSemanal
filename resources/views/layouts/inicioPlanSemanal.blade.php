@@ -124,6 +124,9 @@
                                                 <th scope="col">Observaciones</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
+                                                @if ($organo == null)
+                                                    <th scope="col">Mostrar</th>
+                                                @endif
                                                 <th scope="col">Enviar</th>
                                             </tr>
                                         </thead>
@@ -131,7 +134,7 @@
                                         <tbody>
                                             @foreach ($subAreas as $subArea)
                                                 <tr >
-                                                    <td colspan="8"><strong>{{$subArea->descripcion}}</strong></td>
+                                                    <td colspan="{{$organo== null ? '9' : '8'}}"><strong>{{$subArea->descripcion}}</strong></td>
                                                 </tr>
                                                 @foreach ($lunes as $actividad)
 
@@ -147,12 +150,48 @@
                                                                 <td>{{ $actividad->observaciones }}</td>
                                                                 <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
-                                                                    <input class="form-control" type="text" name="indicaciones"
+                                                                    @if ($organo == null)
+                                                                        <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
                                                                         value="{{$actividad->ind_direccion}}">
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <input class="form-control" type="text" name="indicaciones"
+                                                                            id="indicaciones" placeholder="Indicaciones"
+                                                                            value="{{$actividad->ind_direccion}}">
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
+                                                                @if ($organo == null)
+                                                                    <td class="pb-0" width="100px">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Director') ? 'checked' : '' : '' }} type="checkbox" 
+                                                                            value="Director" class="custom-control-input settings"
+                                                                                name="views[]" id="check + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check + {{$actividad->id}}"><small>Director</small></label>
+                                                                        </div>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Validador') ? 'checked' : '' : ''}} type="checkbox" 
+                                                                            value="Validador" class="custom-control-input settings"
+                                                                                name="views[]" id="check2 + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check2 + {{$actividad->id}}"><small>Validador</small></label>
+                                                                        </div>
+                                                                    </td>
+                                                                @endif
                                                                 <td width="80px">
-                                                                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @if ($organo == null)
+                                                                        <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         </form>
@@ -182,14 +221,17 @@
                                                 <th scope="col">Observaciones</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
+                                                @if ($organo == null)
+                                                    <th scope="col">Mostrar</th>
+                                                @endif
                                                 <th scope="col">Enviar</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             @foreach ($subAreas as $subArea)
-                                                <tr >
-                                                    <td colspan="8"><strong>{{$subArea->descripcion}}</strong></td>
+                                                <tr>
+                                                    <td colspan="{{$organo== null ? '9' : '8'}}"><strong>{{$subArea->descripcion}}</strong></td>
                                                 </tr>
                                                 @foreach ($martes as $actividad)
 
@@ -205,12 +247,48 @@
                                                                 <td>{{ $actividad->observaciones }}</td>
                                                                 <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
-                                                                    <input class="form-control" type="text" name="indicaciones"
+                                                                    @if ($organo == null)
+                                                                        <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
                                                                         value="{{$actividad->ind_direccion}}">
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <input class="form-control" type="text" name="indicaciones"
+                                                                            id="indicaciones" placeholder="Indicaciones"
+                                                                            value="{{$actividad->ind_direccion}}">
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
+                                                                @if ($organo == null)
+                                                                    <td class="pb-0" width="100px">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Director') ? 'checked' : '' : '' }} type="checkbox" 
+                                                                            value="Director" class="custom-control-input settings"
+                                                                                name="views[]" id="check + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check + {{$actividad->id}}"><small>Director</small></label>
+                                                                        </div>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Validador') ? 'checked' : '' : ''}} type="checkbox" 
+                                                                            value="Validador" class="custom-control-input settings"
+                                                                                name="views[]" id="check2 + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check2 + {{$actividad->id}}"><small>Validador</small></label>
+                                                                        </div>
+                                                                    </td>
+                                                                @endif
                                                                 <td width="80px">
-                                                                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @if ($organo == null)
+                                                                        <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         </form>
@@ -240,6 +318,9 @@
                                                 <th scope="col">Observaciones</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
+                                                @if ($organo == null)
+                                                    <th scope="col">Mostrar</th>
+                                                @endif
                                                 <th scope="col">Enviar</th>
                                             </tr>
                                         </thead>
@@ -247,7 +328,7 @@
                                         <tbody>
                                             @foreach ($subAreas as $subArea)
                                                 <tr >
-                                                    <td colspan="8"><strong>{{$subArea->descripcion}}</strong></td>
+                                                    <td colspan="{{$organo== null ? '9' : '8'}}"><strong>{{$subArea->descripcion}}</strong></td>
                                                 </tr>
                                                 @foreach ($miercoles as $actividad)
 
@@ -263,12 +344,48 @@
                                                                 <td>{{ $actividad->observaciones }}</td>
                                                                 <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
-                                                                    <input class="form-control" type="text" name="indicaciones"
+                                                                    @if ($organo == null)
+                                                                        <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
                                                                         value="{{$actividad->ind_direccion}}">
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <input class="form-control" type="text" name="indicaciones"
+                                                                            id="indicaciones" placeholder="Indicaciones"
+                                                                            value="{{$actividad->ind_direccion}}">
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
+                                                                @if ($organo == null)
+                                                                    <td class="pb-0" width="100px">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Director') ? 'checked' : '' : '' }} type="checkbox" 
+                                                                            value="Director" class="custom-control-input settings"
+                                                                                name="views[]" id="check + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check + {{$actividad->id}}"><small>Director</small></label>
+                                                                        </div>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Validador') ? 'checked' : '' : ''}} type="checkbox" 
+                                                                            value="Validador" class="custom-control-input settings"
+                                                                                name="views[]" id="check2 + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check2 + {{$actividad->id}}"><small>Validador</small></label>
+                                                                        </div>
+                                                                    </td>
+                                                                @endif
                                                                 <td width="80px">
-                                                                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @if ($organo == null)
+                                                                        <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         </form>
@@ -298,6 +415,9 @@
                                                 <th scope="col">Observaciones</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
+                                                @if ($organo == null)
+                                                    <th scope="col">Mostrar</th>
+                                                @endif
                                                 <th scope="col">Enviar</th>
                                             </tr>
                                         </thead>
@@ -305,7 +425,7 @@
                                         <tbody>
                                             @foreach ($subAreas as $subArea)
                                                 <tr >
-                                                    <td colspan="8"><strong>{{$subArea->descripcion}}</strong></td>
+                                                    <td colspan="{{$organo== null ? '9' : '8'}}"><strong>{{$subArea->descripcion}}</strong></td>
                                                 </tr>
                                                 @foreach ($jueves as $actividad)
 
@@ -321,12 +441,48 @@
                                                                 <td>{{ $actividad->observaciones }}</td>
                                                                 <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
-                                                                    <input class="form-control" type="text" name="indicaciones"
+                                                                    @if ($organo == null)
+                                                                        <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
                                                                         value="{{$actividad->ind_direccion}}">
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <input class="form-control" type="text" name="indicaciones"
+                                                                            id="indicaciones" placeholder="Indicaciones"
+                                                                            value="{{$actividad->ind_direccion}}">
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
+                                                                @if ($organo == null)
+                                                                    <td class="pb-0" width="100px">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Director') ? 'checked' : '' : '' }} type="checkbox" 
+                                                                            value="Director" class="custom-control-input settings"
+                                                                                name="views[]" id="check + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check + {{$actividad->id}}"><small>Director</small></label>
+                                                                        </div>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Validador') ? 'checked' : '' : ''}} type="checkbox" 
+                                                                            value="Validador" class="custom-control-input settings"
+                                                                                name="views[]" id="check2 + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check2 + {{$actividad->id}}"><small>Validador</small></label>
+                                                                        </div>
+                                                                    </td>
+                                                                @endif
                                                                 <td width="80px">
-                                                                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @if ($organo == null)
+                                                                        <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         </form>
@@ -356,6 +512,9 @@
                                                 <th scope="col">Observaciones</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Indicaciones</th>
+                                                @if ($organo == null)
+                                                    <th scope="col">Mostrar</th>
+                                                @endif
                                                 <th scope="col">Enviar</th>
                                             </tr>
                                         </thead>
@@ -363,7 +522,7 @@
                                         <tbody>
                                             @foreach ($subAreas as $subArea)
                                                 <tr >
-                                                    <td colspan="8"><strong>{{$subArea->descripcion}}</strong></td>
+                                                    <td colspan="{{$organo== null ? '9' : '8'}}"><strong>{{$subArea->descripcion}}</strong></td>
                                                 </tr>
                                                 @foreach ($viernes as $actividad)
 
@@ -379,12 +538,48 @@
                                                                 <td>{{ $actividad->observaciones }}</td>
                                                                 <td width="100px" >{{ $actividad->tipo_actividad }}</td>
                                                                 <td>
-                                                                    <input class="form-control" type="text" name="indicaciones"
+                                                                    @if ($organo == null)
+                                                                        <input class="form-control" type="text" name="indicaciones"
                                                                         id="indicaciones" placeholder="Indicaciones"
                                                                         value="{{$actividad->ind_direccion}}">
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <input class="form-control" type="text" name="indicaciones"
+                                                                            id="indicaciones" placeholder="Indicaciones"
+                                                                            value="{{$actividad->ind_direccion}}">
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
+                                                                @if ($organo == null)
+                                                                    <td class="pb-0" width="100px">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Director') ? 'checked' : '' : '' }} type="checkbox" 
+                                                                            value="Director" class="custom-control-input settings"
+                                                                                name="views[]" id="check + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check + {{$actividad->id}}"><small>Director</small></label>
+                                                                        </div>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input {{$actividad->mostrar != null ? str_contains($actividad->mostrar, 'Validador') ? 'checked' : '' : ''}} type="checkbox" 
+                                                                            value="Validador" class="custom-control-input settings"
+                                                                                name="views[]" id="check2 + {{$actividad->id}}">
+                                                                            <label class="custom-control-label"
+                                                                                for="check2 + {{$actividad->id}}"><small>Validador</small></label>
+                                                                        </div>
+                                                                    </td>
+                                                                @endif
                                                                 <td width="80px">
-                                                                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @if ($organo == null)
+                                                                        <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                    @else
+                                                                        @if ($actividad->mostrar == null || str_contains($actividad->mostrar, 'Validador'))
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                                        @else
+                                                                            <small>Permiso no otorgado</small>
+                                                                        @endif
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         </form>

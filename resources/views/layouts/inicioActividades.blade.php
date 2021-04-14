@@ -134,47 +134,6 @@
                             </thead>
 
                             <tbody>
-                                {{-- <tr>
-                                    <form id="formAddActivity" action="{{ route('actividades.store') }}"
-                                        method="post">
-                                        @csrf
-
-                                        <td>
-                                            <input type='text' id="fecha" autocomplete="off" readonly="readonly" name="fecha"
-                                                class="form-control datepicker" required>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" id="asunto" name="asunto"
-                                                placeholder="Asunto">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" id="area_responsable"
-                                                name="area_responsable" placeholder="Área Responsable">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" id="actividad" name="actividad"
-                                                placeholder="Actividad">
-                                        </td>
-                                        <td>
-                                            <select name="status" class="form-control" id="status">
-                                                <option value="">Seleccione</option>
-                                                <option value="INICIADO">INICIADO</option>
-                                                <option value="EN PROCESO">EN PROCESO</option>
-                                                <option value="TERMINADO">TERMINADO</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" id="observaciones" name="observaciones"
-                                                placeholder="Observaciones">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" id="semana" name="semana"
-                                                placeholder="Semana">
-                                        </td>
-                                        <td><button type="submit" class="btn btn-primary">Agregar</button></td>
-                                    </form>
-                                </tr> --}}
-
                                 @foreach ($actividades as $actividad)
                                     <tr>
                                         <form id="formStatus_{{ $actividad->id }}"
