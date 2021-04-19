@@ -23,5 +23,6 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'validacion.inicio'])->assignRole($role3);
         Permission::create(['name' => 'plan.inicio'])->assignRole($role4);
         Permission::create(['name' => 'registro.inicio'])->assignRole($role5);
+        Permission::create(['name' => 'usuarios.inicio'])->assignRole($role5);
     }
 }

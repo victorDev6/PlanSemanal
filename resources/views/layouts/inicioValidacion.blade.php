@@ -97,7 +97,7 @@
                                             <tr>
                                                 <td width="100px">{{ $actividad->fecha }}</td>
                                                 <td>{{ $actividad->asunto }}</td>
-                                                <td width="200px" >{{ $actividad->descripcion }}</td>
+                                                <td width="200px" ><strong>{{ $actividad->descripcion }}</strong></td>
                                                 <td>{{ $actividad->actividad }}</td>
                                                 <td width="120px">{{ $actividad->status }}</td>
                                                 <td>{{ $actividad->observaciones }}</td>

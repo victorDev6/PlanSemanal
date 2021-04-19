@@ -22,7 +22,8 @@ class PlanSemanalController extends Controller {
             $id_area = Auth::user()->id_area;
             $areas = DB::table('organos')->where('id_parent', '=', $id_area)->get();
         }
-        $subAreas = DB::table('organos')->where('id_parent', '=', $request->area)->get();
+
+        $subAreas = DB::table('organos')->where('organos.id', '=', $request->area)->orWhere('id_parent', '=', $request->area)->get();
 
         $lunes = []; $martes = []; $miercoles = []; $jueves = []; $viernes = [];
         $mes = $request->mes;
@@ -97,7 +98,8 @@ class PlanSemanalController extends Controller {
 
     public function reporteSemanal($ejercicio, $mes, $direccion, $semana) {
         $direccion2 = organo::where('id', '=', $direccion)->get();
-        $subAreas = organo::where('id_parent', '=', $direccion)->get();
+        // $subAreas = organo::where('id_parent', '=', $direccion)->get();
+        $subAreas = DB::table('organos')->where('organos.id', '=', $direccion)->orWhere('id_parent', '=', $direccion)->get();
 
         $lunes = []; $martes = []; $miercoles = []; $jueves = []; $viernes = [];
         if ($ejercicio != null){

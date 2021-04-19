@@ -14,15 +14,16 @@ class VtoBuenoController extends Controller {
         if ($organo1 == 3) {
             $organo1 = 5;
         }
+        
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
-        $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
+        $areas = DB::table('organos')->where('organos.id', '=', $organo1)->orWhere('id_parent', '=', $organo1)->get();
 
         if ($request->semana != null) {
-            session(['semana' => $request->semana]);
+            session(['semana2' => $request->semana]);
             session(['actividad2' => $request->actividad2]);
         }
 
-        $semana = session('semana');
+        $semana = session('semana2');
         $actividad2 = session('actividad2');
 
         if ($actividad2 == null) {
@@ -31,7 +32,6 @@ class VtoBuenoController extends Controller {
                 ->where('fecha_enviado', '!=', null)
                 ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
                 ->select('actividades.*', 'organos.descripcion')
-                // ->orderByDesc('actividades.id')
                 ->orderByRaw('status_vtoBueno desc')
                 ->get();
         } else {
@@ -41,7 +41,6 @@ class VtoBuenoController extends Controller {
                 ->where('fecha_enviado', '!=', null)
                 ->leftjoin('organos', 'actividades.area_responsable', '=', 'organos.id')
                 ->select('actividades.*', 'organos.descripcion')
-                // ->orderByDesc('actividades.id')
                 ->orderByRaw('status_vtoBueno desc')
                 ->get();
         }

@@ -43,3 +43,5 @@ Route::post('/Registro/enviar', 'RegistroController@store')->name('registro.envi
 
 Route::get('/Password/inicio', 'PasswordController@index')->name('password.inicio');
 Route::post('/Password/enviar', 'PasswordController@store')->name('password.enviar');
+
+Route::get('/Usuarios/inicio', 'UsuariosController@index')->name('usuarios.inicio');

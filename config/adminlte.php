@@ -269,6 +269,13 @@ return [
             'icon_color' => 'color_icono'
         ],
         [
+            'text' => 'Usuarios',
+            'route'  => 'usuarios.inicio',
+            'icon' => 'fa fa-user',
+            'can' => 'usuarios.inicio',
+            'icon_color' => 'color_icono',
+        ],
+        [
             'text' => 'Cambiar Contraseña',
             'route'  => 'password.inicio',
             'icon' => 'fa fa-lock',

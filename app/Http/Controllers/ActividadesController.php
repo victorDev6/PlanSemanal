@@ -14,6 +14,10 @@ class ActividadesController extends Controller {
         $responsable = Auth::user()->id_area;
         $organos = DB::table('organos')->where('organos.id', '=', $responsable)->get();
 
+        if ($responsable == 3) {
+            $responsable = 5;
+        }
+
         if ($request->busqueda != null) {
             session(['semana' => $request->busqueda]);
         }
@@ -29,20 +33,38 @@ class ActividadesController extends Controller {
     }
 
     public function store(Request $request) {
-        $id_dpto = DB::table('organos')->where('organos.id', '=', Auth::user()->id_organo)->get();
-        $organo = DB::table('organos')->where('organos.id', '=', $id_dpto[0]->id_parent)->get();
+
+        if (Auth::user()->id_area == 3) {
+            $id_dpto = DB::table('organos')->where('organos.id', '=', 5)->get();
+        } else {
+            $id_dpto = DB::table('organos')->where('organos.id', '=', Auth::user()->id_organo)->get();
+        }
+        $organo = null;
+        $departamento = null;
+
+        if ($id_dpto[0]->id == 2 || $id_dpto[0]->id == 3) { // es un director
+            $organo = $id_dpto[0]->id;
+            $departamento = Auth::user()->id_area;
+        } else if ($id_dpto[0]->id == 5) {
+            $organo = 3;
+            $departamento = 5;
+        } else {
+            $organo = DB::table('organos')->where('organos.id', '=', $id_dpto[0]->id_parent)->get(); //si es director no es necesario hacer esta consulta
+            $organo = $organo[0]->id;
+            $departamento = $id_dpto[0]->id;
+        }
 
         $actividad = new Actividades();
         $actividad->fecha = $request->fecha;
         $actividad->asunto = $request->asunto;
-        $actividad->area_responsable = Auth::user()->id_area;
+        $actividad->area_responsable = Auth::user()->id_area == 3 ? 5 : Auth::user()->id_area;
         $actividad->actividad = $request->actividad;
         $actividad->status = $request->status;
         $actividad->observaciones = $request->observaciones;
         $actividad->semana = $request->semana;
         $actividad->tipo_actividad = $request->tipo_actividad;
-        $actividad->id_organo = $organo[0]->id;
-        $actividad->id_departamento = $id_dpto[0]->id;
+        $actividad->id_organo = $organo;
+        $actividad->id_departamento = $departamento;
         $actividad->iduser_created = Auth::user()->id;
         $actividad->save();
         return redirect()->route('actividades.inicio')->with('success', 'ACTIVIDAD GUARDADA EXITOSAMENTE');
