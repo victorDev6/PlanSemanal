@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Actividades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,17 +15,23 @@ class VtoBuenoController extends Controller {
         if ($organo1 == 3) {
             $organo1 = 5;
         }
-        
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
-        $areas = DB::table('organos')->where('organos.id', '=', $organo1)->orWhere('id_parent', '=', $organo1)->get();
+        // $areas = DB::table('organos')->where('organos.id', '=', $organo1)->orWhere('id_parent', '=', $organo1)->get();
+
+        if ($organo1 == 2) {
+            $areas = DB::table('organos')->where('organos.id', '=', $organo1)->get();
+        } else {
+            $areas = DB::table('organos')->where('organos.id', '=', $organo1)->orWhere('id_parent', '=', $organo1)->get();
+        }
 
         if ($request->semana != null) {
             session(['semana2' => $request->semana]);
             session(['actividad2' => $request->actividad2]);
         }
-
         $semana = session('semana2');
         $actividad2 = session('actividad2');
+        $date = date('Y-m-d');
+        $day = Carbon::parse($date)->format('l');
 
         if ($actividad2 == null) {
             $actividades = Actividades::where('id_departamento', '=', $organo1)
@@ -44,7 +51,7 @@ class VtoBuenoController extends Controller {
                 ->orderByRaw('status_vtoBueno desc')
                 ->get();
         }
-        return view('layouts.inicioVtoBueno', compact('organo', 'areas', 'semana', 'actividades', 'actividad2'));
+        return view('layouts.inicioVtoBueno', compact('organo', 'areas', 'semana', 'actividades', 'actividad2', 'day'));
     }
 
     public function store(Request $request, $semana) {
@@ -64,6 +71,7 @@ class VtoBuenoController extends Controller {
     public function update(Request $request) {
         Actividades::where('id', '=', $request->id)
             ->update([
+                'fecha' => $request->fecha,
                 'asunto' => $request->asunto,
                 'actividad' => $request->actividad,
                 'observaciones' => $request->observaciones,

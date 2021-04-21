@@ -17,14 +17,22 @@ class PlanSemanalController extends Controller {
     public function index(Request $request) {
         $organo = Auth::user()->id_organo;
         if ($organo == null) {
-            $areas = DB::table('organos')->where('id_parent', '=', 2)->orWhere('id_parent', '=', 3)->get();
+            $areas = DB::table('organos')->where('id', '=', 2)->orWhere('id_parent', '=', 2)->orWhere('id_parent', '=', 3)->get();
         } else {
             $id_area = Auth::user()->id_area;
-            $areas = DB::table('organos')->where('id_parent', '=', $id_area)->get();
+            if ($id_area == 2) {
+                $areas = DB::table('organos')->where('id', '=', 2)->orWhere('id_parent', '=', $id_area)->get();
+            } else {
+                $areas = DB::table('organos')->where('id_parent', '=', $id_area)->get();
+            }
         }
 
-        $subAreas = DB::table('organos')->where('organos.id', '=', $request->area)->orWhere('id_parent', '=', $request->area)->get();
-
+        if ($request->area == 2) {
+            $subAreas = DB::table('organos')->where('organos.id', '=', $request->area)->get();
+        } else {
+            $subAreas = DB::table('organos')->where('organos.id', '=', $request->area)->orWhere('id_parent', '=', $request->area)->get();
+        }
+        
         $lunes = []; $martes = []; $miercoles = []; $jueves = []; $viernes = [];
         $mes = $request->mes;
         $direccion = $request->area;
@@ -69,7 +77,6 @@ class PlanSemanalController extends Controller {
     }
 
     public function update(Request $request, $id) {
-
         $mostrar = [];
         $organo = Auth::user()->id_organo;
 
@@ -98,8 +105,12 @@ class PlanSemanalController extends Controller {
 
     public function reporteSemanal($ejercicio, $mes, $direccion, $semana) {
         $direccion2 = organo::where('id', '=', $direccion)->get();
-        // $subAreas = organo::where('id_parent', '=', $direccion)->get();
-        $subAreas = DB::table('organos')->where('organos.id', '=', $direccion)->orWhere('id_parent', '=', $direccion)->get();
+
+        if ($direccion == 2) {
+            $subAreas = DB::table('organos')->where('organos.id', '=', $direccion)->get();
+        } else {
+            $subAreas = DB::table('organos')->where('organos.id', '=', $direccion)->orWhere('id_parent', '=', $direccion)->get();
+        }
 
         $lunes = []; $martes = []; $miercoles = []; $jueves = []; $viernes = [];
         if ($ejercicio != null){

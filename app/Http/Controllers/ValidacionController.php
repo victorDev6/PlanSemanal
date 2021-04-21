@@ -13,7 +13,12 @@ class ValidacionController extends Controller {
     public function index(Request $request) {
         $organo1 = Auth::user()->id_area;
         $organo = DB::table('organos')->where('organos.id', '=', $organo1)->get();
-        $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
+
+        if ($organo1 == 2) {
+            $areas = DB::table('organos')->where('organos.id', '=', $organo1)->orWhere('id_parent', '=', $organo1)->get();
+        } else {
+            $areas = DB::table('organos')->where('id_parent', '=', $organo1)->get();
+        }
 
         if ($request->semana != null) {
             session(['administrativo' => $request->area]);

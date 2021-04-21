@@ -105,15 +105,19 @@
                                                             @endif
                                                         </td>
                                                         <td width="50px">
-                                                            @if ($actividad->fecha_vToBueno == null)
-                                                                <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
-                                                                data-toggle="modal" data-target="#modalModify">Modificar</button>
-
-                                                            @elseif($actividad->mostrar != null && str_contains($actividad->mostrar, 'Director'))
+                                                            @if ($day == 'Friday')
                                                                 <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
                                                                 data-toggle="modal" data-target="#modalModify">Modificar</button>
                                                             @else
-                                                                No Disponible
+                                                                @if ($actividad->fecha_vToBueno == null)
+                                                                    <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
+                                                                    data-toggle="modal" data-target="#modalModify">Modificar</button>
+                                                                @elseif($actividad->mostrar != null && str_contains($actividad->mostrar, 'Director'))
+                                                                    <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
+                                                                    data-toggle="modal" data-target="#modalModify">Modificar</button>
+                                                                @else
+                                                                    No Disponible
+                                                                @endif
                                                             @endif
                                                         </td>
                                                         <td width="30px">
@@ -189,6 +193,11 @@
                         <div class="modal-body">
                             <input class="d-none" type="text" id="id" name="id">
                             <div class="form-group col">
+                                <label for="fecha" class="control-label">Fecha</label>
+                                <input type='text' id="fecha" autocomplete="off" readonly="readonly" name="fecha"
+                                class="form-control datepicker" required>
+                            </div>
+                            <div class="form-group col">
                                 <label for="asunto" class="control-label">Asunto</label>
                                 <textarea name="asunto" id="asunto" class="form-control" placeholder="Asunto" cols="30" rows="2"></textarea>
                             </div>
@@ -235,9 +244,17 @@
 
 @section('js')
     <script>
+        $("#fecha").datepicker({
+            language: "es",
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1,
+            dateFormat: 'yy-mm-dd'
+        });
 
         function showModal(actividad) {
             $('#id').val(actividad['id']);
+            $('#fecha').val(actividad['fecha']);
             $('#asunto').val(actividad['asunto']);
             $('#actividad').val(actividad['actividad']);
             $('#observaciones').val(actividad['observaciones']);

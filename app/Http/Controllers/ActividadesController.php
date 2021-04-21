@@ -34,7 +34,9 @@ class ActividadesController extends Controller {
 
     public function store(Request $request) {
 
-        if (Auth::user()->id_area == 3) {
+        if (Auth::user()->id_area == 2) {
+            $id_dpto = DB::table('organos')->where('organos.id', '=', Auth::user()->id_area)->get();
+        } else if (Auth::user()->id_area == 3) {
             $id_dpto = DB::table('organos')->where('organos.id', '=', 5)->get();
         } else {
             $id_dpto = DB::table('organos')->where('organos.id', '=', Auth::user()->id_organo)->get();
