@@ -271,7 +271,7 @@ return [
         [
             'text' => 'Usuarios',
             'route'  => 'usuarios.inicio',
-            'icon' => 'fa fa-user',
+            'icon' => 'fa fa-users',
             'can' => 'usuarios.inicio',
             'icon_color' => 'color_icono',
         ],

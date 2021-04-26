@@ -45,3 +45,4 @@ Route::get('/Password/inicio', 'PasswordController@index')->name('password.inici
 Route::post('/Password/enviar', 'PasswordController@store')->name('password.enviar');
 
 Route::get('/Usuarios/inicio', 'UsuariosController@index')->name('usuarios.inicio');
+Route::post('/Usuarios/modificar', 'UsuariosController@update')->name('usuarios.modificar');
