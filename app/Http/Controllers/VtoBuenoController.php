@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Actividades;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -30,8 +31,17 @@ class VtoBuenoController extends Controller {
         }
         $semana = session('semana2');
         $actividad2 = session('actividad2');
-        $date = date('Y-m-d');
-        $day = Carbon::parse($date)->format('l');
+
+        $date = Carbon::now()->timezone('America/Monterrey');
+        $day = Carbon::parse($date->toDateString())->format('l');
+        $hora = $date->hour;
+        
+        $show = 'false';
+        if ($day == 'Thursday' && $hora >= 16) {
+            $show = 'true';
+        } else if ($day == 'Friday' && $hora <= 16) {
+            $show = 'true';
+        }
 
         if ($actividad2 == null) {
             $actividades = Actividades::where('id_departamento', '=', $organo1)
@@ -51,7 +61,7 @@ class VtoBuenoController extends Controller {
                 ->orderByRaw('status_vtoBueno desc')
                 ->get();
         }
-        return view('layouts.inicioVtoBueno', compact('organo', 'areas', 'semana', 'actividades', 'actividad2', 'day'));
+        return view('layouts.inicioVtoBueno', compact('organo', 'areas', 'semana', 'actividades', 'actividad2', 'show'));
     }
 
     public function store(Request $request, $semana) {

@@ -276,6 +276,41 @@ return [
             'icon_color' => 'color_icono',
         ],
         [
+            'text' => 'Cronograma de Pagos',
+            'route'  => 'pagos.inicio',
+            'icon' => 'fa fa-money',
+            'can' => 'pagos.inicio',
+            'icon_color' => 'color_icono'
+        ],
+        [
+            'text' => 'Pagos Realizados',
+            'route'  => 'pagosRealizados.inicio',
+            'icon' => 'fa fa-calendar',
+            'can' => 'pagosRealizados.inicio',
+            'icon_color' => 'color_icono'
+        ],
+        [
+            'text' => 'Cronograma de Pagos',
+            'route'  => 'cronogramaPagos.inicio',
+            'icon' => 'fa fa-table',
+            'can' => 'cronogramaPagos.inicio',
+            'icon_color' => 'color_icono'
+        ],
+        [
+            'text' => 'Agregar Rol',
+            'route'  => 'roles.inicio',
+            'icon' => 'fa fa-registered',
+            'can' => 'roles.inicio',
+            'icon_color' => 'color_icono'
+        ],
+        [
+            'text' => 'Agregar Permiso a un Rol',
+            'route'  => 'permisos.inicio',
+            'icon' => 'fa fa-pencil-square-o',
+            'can' => 'permiso.inicio',
+            'icon_color' => 'color_icono'
+        ],
+        [
             'text' => 'Cambiar Contraseña',
             'route'  => 'password.inicio',
             'icon' => 'fa fa-lock',

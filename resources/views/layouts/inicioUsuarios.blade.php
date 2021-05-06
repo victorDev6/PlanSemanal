@@ -21,6 +21,21 @@
         <div class="card">
             <div class="card-header">USUARIOS REGISTRADOS</div>
             <div class="card-body">
+
+                <form action="{{route('usuarios.inicio')}}" method="get">
+                    @csrf
+                    <div class="row mb-2">
+                        <div class="col-3">Buscar por email</div>
+                        <div class="col-4">
+                            <input class="form-control" type="text" name="busqueda" id="busqueda"
+                            placeholder="Email">
+                        </div>
+                        <div class="col">
+                            <button type="submit" id="btnBuscarCurso" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </div>
+                </form>
+
                 <div class="row">
                     <table class="table table-light table-bordered table-striped">
                         <thead class="thead-light">

@@ -105,7 +105,7 @@
                                                             @endif
                                                         </td>
                                                         <td width="50px">
-                                                            @if ($day == 'Friday')
+                                                            @if ($show == 'true')
                                                                 <button onclick="showModal({{$actividad}})" type="button" class="btn btn-primary btn-sm" 
                                                                 data-toggle="modal" data-target="#modalModify">Modificar</button>
                                                             @else
