@@ -148,18 +148,41 @@
             });
 
             $('#btnAgregar').click(function() {
-                if($('#unidad').val() == '') {
-                    $('#titulo').html('Unidad de Capacitación');
-                    $('#mensaje').html('Seleccione una unidad de capacitación');
-                    $('#btnModal').click();
-                } else if ($('#txtFecha').val() == '' || $('#txtNumero').val() == '') {
-                    $('#titulo').html('Campos Vacíos');
-                    $('#mensaje').html('Seleccione una fecha y agregue el número de pagos realizados');
-                    $('#btnModal').click();
+                miFecha = new Date()
+                var valid = false;
+
+                if (miFecha.getDay() >= 5 || miFecha.getDay() <= 1) { //viernes a lunes
+                    if (miFecha.getDay() == 5) { //viernes 
+                        if (miFecha.getHours() >= 16) { // si son mas de las 4
+                            valid = true;
+                        }
+                    } else if (miFecha.getDay() == 1) { //lunes
+                        if (miFecha.getHours() <= 11) { // si son menos de las 11
+                            valid = true;
+                        }
+                    } else { // es sabado o domingo
+                        valid = true
+                    }
+                }
+
+                if (valid) {
+                    if($('#unidad').val() == '') {
+                        $('#titulo').html('Unidad de Capacitación');
+                        $('#mensaje').html('Seleccione una unidad de capacitación');
+                        $('#btnModal').click();
+                    } else if ($('#txtFecha').val() == '' || $('#txtNumero').val() == '') {
+                        $('#titulo').html('Campos Vacíos');
+                        $('#mensaje').html('Seleccione una fecha y agregue el número de pagos realizados');
+                        $('#btnModal').click();
+                    } else {
+                        objEvento = null;
+                        objEvento = recolectarDatos("POST");
+                        EnviarInformacion("", objEvento, 'insert');   
+                    }   
                 } else {
-                    objEvento = null;
-                    objEvento = recolectarDatos("POST");
-                    EnviarInformacion("", objEvento, 'insert');   
+                    $('#titulo').html('No Disponible');
+                    $('#mensaje').html('Unicamente puede agregar pagos de Viernes 04:00 PM a Lunes 11:00 AM');
+                    $('#btnModal').click();
                 }
             });
 
@@ -303,9 +326,16 @@
                         $('#btnModificar').prop('disabled', false);
                         $('#btnBorrar').prop('disabled', false);
                     } else {
-                        $('#btnAgregar').prop('disabled', true);
-                        $('#btnModificar').prop('disabled', true);
-                        $('#btnBorrar').prop('disabled', true);
+                        var date = new Date()
+                        if (date.getDay() == 5 && date.getHours() <= 10) { // si es viernes y antes de las 11
+                            $('#btnAgregar').prop('disabled', true);
+                            $('#btnModificar').prop('disabled', false);
+                            $('#btnBorrar').prop('disabled', true);
+                        } else {
+                            $('#btnAgregar').prop('disabled', true);
+                            $('#btnModificar').prop('disabled', true);
+                            $('#btnBorrar').prop('disabled', true);
+                        }
                     }
                     
                     mes = (info.event.start.getMonth() + 1);
