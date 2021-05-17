@@ -276,7 +276,7 @@ return [
             'icon_color' => 'color_icono',
         ],
         [
-            'text' => 'Cronograma de Pagos',
+            'text' => 'Agregar Pagos',
             'route'  => 'pagos.inicio',
             'icon' => 'fa fa-money',
             'can' => 'pagos.inicio',

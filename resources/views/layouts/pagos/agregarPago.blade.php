@@ -149,9 +149,10 @@
 
             $('#btnAgregar').click(function() {
                 miFecha = new Date()
-                var valid = false;
+                // var valid = false;
+                var valid = true;
 
-                if (miFecha.getDay() >= 5 || miFecha.getDay() <= 1) { //viernes a lunes
+                /* if (miFecha.getDay() >= 5 || miFecha.getDay() <= 1) { //viernes a lunes
                     if (miFecha.getDay() == 5) { //viernes 
                         if (miFecha.getHours() >= 16) { // si son mas de las 4
                             valid = true;
@@ -163,7 +164,7 @@
                     } else { // es sabado o domingo
                         valid = true
                     }
-                }
+                } */
 
                 if (valid) {
                     if($('#unidad').val() == '') {
@@ -326,8 +327,10 @@
                         $('#btnModificar').prop('disabled', false);
                         $('#btnBorrar').prop('disabled', false);
                     } else {
-                        var date = new Date()
-                        if (date.getDay() == 5 && date.getHours() <= 10) { // si es viernes y antes de las 11
+                        var date = new Date();
+                        console.log(date.getDay());
+                        console.log(date.getHours());
+                        if (date.getDay() == 5 && date.getHours() <= 15) { // si es viernes y antes de las 11
                             $('#btnAgregar').prop('disabled', true);
                             $('#btnModificar').prop('disabled', false);
                             $('#btnBorrar').prop('disabled', true);
@@ -346,7 +349,7 @@
 
                     $('#txtId').val(info.event.id);
                     $('#txtNumero').val(info.event.title),
-                        $('#txtFecha').val(dia + '-' + mes + '-' + anio);
+                    $('#txtFecha').val(dia + '-' + mes + '-' + anio);
                     $('#txtComentarios').val(info.event.extendedProps.comentarios);
                     $('#textSend').html(info.event.extendedProps.fecha_enviado == null ? 'NO' : 'SI')
                 },
