@@ -149,10 +149,10 @@
 
             $('#btnAgregar').click(function() {
                 miFecha = new Date()
-                // var valid = false;
-                var valid = true;
+                var valid = false;
+                // var valid = true;
 
-                /* if (miFecha.getDay() >= 5 || miFecha.getDay() <= 1) { //viernes a lunes
+                if (miFecha.getDay() >= 5 || miFecha.getDay() <= 1) { //viernes a lunes
                     if (miFecha.getDay() == 5) { //viernes 
                         if (miFecha.getHours() >= 16) { // si son mas de las 4
                             valid = true;
@@ -164,7 +164,7 @@
                     } else { // es sabado o domingo
                         valid = true
                     }
-                } */
+                }
 
                 if (valid) {
                     if($('#unidad').val() == '') {
@@ -330,7 +330,7 @@
                         var date = new Date();
                         console.log(date.getDay());
                         console.log(date.getHours());
-                        if (date.getDay() == 5 && date.getHours() <= 15) { // si es viernes y antes de las 11
+                        if (date.getDay() == 5 && date.getHours() <= 15) { // si es viernes y antes de las 3:00 pm
                             $('#btnAgregar').prop('disabled', true);
                             $('#btnModificar').prop('disabled', false);
                             $('#btnBorrar').prop('disabled', true);
