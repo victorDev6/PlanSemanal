@@ -54,7 +54,7 @@
                     <div class="row d-flex justify-content-center">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="">Número de Pagos Realizados</label>
+                                <label for="">Número de Pagos</label>
                                 <input type="number" class="form-control" name="txtNumero" id="txtNumero" required>
                             </div>
                         </div>
@@ -91,7 +91,14 @@
                         <button id="btnSend" type="button" class="btn btn-primary ml-2">Enviar Pagos</button>
                     </div>
                 </form>
+
+                {{-- <br>
+                <div class="row d-flex justify-content-center px-5">
+                    <button id="btnPrevisualizar" type="submit" class="btn btn-light">Previsualizar Antes de Enviar</button>
+                </div> --}}
+
                 <button id="btnModal" type="button" class="d-none" data-toggle="modal" data-target="#modalMessages"></button>
+                <button id="btnModalPrev" type="button" class="d-none" data-toggle="modal" data-target="#modalPrevisualizar"></button>
 
             </div>
             <div class="col-12 col-md-6">
@@ -100,8 +107,8 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="modalMessages" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="modalMessages" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background: #541533">
@@ -117,6 +124,57 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
                         {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal previsualizar-->
+        <div class="modal fade" id="modalPrevisualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <form id="formFechasPrev" action="" method="post">
+                        @csrf
+
+                        <div class="modal-header" style="background: #541533">
+                            <h5 class="modal-title text-white" id="titulo">Previsualización de Pagos a Enviar</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mt-2">
+                                <!-- fecha inicial -->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="fecha_inicio" class="control-label">Fecha de Inicio</label>
+                                        <input type='text' id="fecha_inicio" autocomplete="off" readonly="readonly" name="fecha_inicio"
+                                            class="form-control datepicker" required>
+                                    </div>
+                                    {{-- value="{{$fechaInicio}}" --}}
+                                </div>
+                
+                                <!-- Fecha conclusion -->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="fecha_termino" class="control-label">Fecha de Termino</label>
+                                        <input type='text' id="fecha_termino" autocomplete="off" readonly="readonly" name="fecha_termino"
+                                            class="form-control datepicker" required>
+                                    </div>
+                                    {{-- value="{{$fechaTermino}}" --}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            {{-- <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button> --}}
+                            <div class="col d-flex align-items-center">
+                                <button type="submit" id="btnBuscarCurso" class="btn btn-primary">ACEPTAR</button>
+                            </div>
+                        </div>
+
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -167,7 +225,7 @@
                 }
 
                 if (valid) {
-                    if($('#unidad').val() == '') {
+                    if ($('#unidad').val() == '') {
                         $('#titulo').html('Unidad de Capacitación');
                         $('#mensaje').html('Seleccione una unidad de capacitación');
                         $('#btnModal').click();
@@ -178,11 +236,12 @@
                     } else {
                         objEvento = null;
                         objEvento = recolectarDatos("POST");
-                        EnviarInformacion("", objEvento, 'insert');   
-                    }   
+                        EnviarInformacion("", objEvento, 'insert');
+                    }
                 } else {
                     $('#titulo').html('No Disponible');
-                    $('#mensaje').html('Unicamente puede agregar pagos de Viernes 04:00 PM a Lunes 11:00 AM');
+                    $('#mensaje').html(
+                        'Unicamente puede agregar pagos de Viernes 04:00 PM a Lunes 11:00 AM');
                     $('#btnModal').click();
                 }
             });
@@ -198,7 +257,7 @@
             // boton modificar
             $('#btnModificar').click(function(e) {
                 e.preventDefault();
-                
+
                 if ($('#txtNumero').val() == '') {
                     $('#titulo').html('Campos Vacíos');
                     $('#mensaje').html('Agregue el número de pagos realizados');
@@ -206,9 +265,9 @@
                 } else {
                     objEvento = null;
                     objEvento = recolectarDatos("POST");
-                    EnviarInformacion('/' + $('#txtId').val(), objEvento, 'update');   
+                    EnviarInformacion('/' + $('#txtId').val(), objEvento, 'update');
                 }
-                
+
             });
 
             $('#btnClean').click(function() {
@@ -221,7 +280,7 @@
                     $('#mensaje').html('Seleccione una unidad de capacitación');
                     $('#btnModal').click();
                 } else {
-                    objData = getData(); 
+                    objData = getData();
                     EnviarPagos(objData);
                 }
             });
@@ -330,7 +389,8 @@
                         var date = new Date();
                         console.log(date.getDay());
                         console.log(date.getHours());
-                        if (date.getDay() == 5 && date.getHours() <= 15) { // si es viernes y antes de las 3:00 pm
+                        if (date.getDay() == 5 && date.getHours() <=
+                            15) { // si es viernes y antes de las 3:00 pm
                             $('#btnAgregar').prop('disabled', true);
                             $('#btnModificar').prop('disabled', false);
                             $('#btnBorrar').prop('disabled', true);
@@ -340,7 +400,7 @@
                             $('#btnBorrar').prop('disabled', true);
                         }
                     }
-                    
+
                     mes = (info.event.start.getMonth() + 1);
                     dia = (info.event.start.getDate());
                     anio = (info.event.start.getFullYear());
@@ -349,7 +409,7 @@
 
                     $('#txtId').val(info.event.id);
                     $('#txtNumero').val(info.event.title),
-                    $('#txtFecha').val(dia + '-' + mes + '-' + anio);
+                        $('#txtFecha').val(dia + '-' + mes + '-' + anio);
                     $('#txtComentarios').val(info.event.extendedProps.comentarios);
                     $('#textSend').html(info.event.extendedProps.fecha_enviado == null ? 'NO' : 'SI')
                 },
@@ -358,6 +418,38 @@
             });
             calendar.setOption('locale', 'es');
             calendar.render();
+        }
+
+        $('#btnPrevisualizar').click(function() {
+            $('#btnModalPrev').click();
+        });
+
+        // formato fechas
+        var dateFormat = "yy-mm-dd",
+            from = $("#fecha_inicio").datepicker({
+                changeMonth: true,
+                numberOfMonths: 1,
+                dateFormat: 'yy-mm-dd'
+            }).on("change", function() {
+                to.datepicker("option", "minDate", getDate(this));
+            }),
+            to = $("#fecha_termino").datepicker({
+                changeMonth: true,
+                numberOfMonths: 1,
+                dateFormat: 'yy-mm-dd'
+            })
+            .on("change", function() {
+                // from.datepicker("option", "maxDate", getDate(this));
+            });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+            return date;
         }
 
     </script>

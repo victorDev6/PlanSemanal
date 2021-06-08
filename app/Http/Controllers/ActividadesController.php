@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Actividades;
 use App\organo;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,26 @@ class ActividadesController extends Controller {
             session(['semana' => $request->busqueda]);
         }
         $semana = session('semana');
+        // $actividad2 = session('actividad2');
+
+        $showModify = 'false';
+        $idOrgano = Auth::user()->id_organo;
+        if ($idOrgano == 4 || $idOrgano == 5 || $idOrgano == 6 || $idOrgano == 7 
+            || $idOrgano == 8 || $idOrgano == 9 || $idOrgano == 10) {
+                $showModify = 'true';
+        }
+
+        $date = Carbon::now()->timezone('America/Monterrey');
+        $day = Carbon::parse($date->toDateString())->format('l');
+        $hora = $date->hour;
+
+        $show = 'false';
+        if ($day == 'Thursday' && $hora >= 16) {
+            $show = 'true';
+        } else if ($day == 'Friday' && $hora <= 16) {
+            $show = 'true';
+        }
+
 
         $actividades = Actividades::where('semana', '=', $semana)
             ->where('actividades.area_responsable', '=', $responsable)
@@ -29,7 +50,7 @@ class ActividadesController extends Controller {
             ->select('actividades.*', 'organos.descripcion')
             ->orderByDesc('actividades.id')
             ->get();
-        return view('layouts.inicioActividades', compact('organos','actividades', 'semana'));
+        return view('layouts.inicioActividades', compact('organos','actividades', 'semana', 'showModify', 'show'));
     }
 
     public function store(Request $request) {
@@ -92,5 +113,19 @@ class ActividadesController extends Controller {
                 'fecha_enviado' => $date
             ]);
         return redirect()->route('actividades.inicio')->with('success', sprintf('ACTIVIDADES DE LA SEMANA %s ENVIADAS CORRECTAMENTE', $request->semanaE));
+    }
+
+    public function update2(Request $request) {
+        Actividades::where('id', '=', $request->id)
+            ->update([
+                'fecha' => $request->fechaD,
+                'asunto' => $request->asuntoD,
+                'actividad' => $request->actividadD,
+                'observaciones' => $request->observacionesD,
+                'semana' => $request->semanaD,
+                'status' => $request->statusD,
+                'tipo_actividad' =>$request->tipo_actividadD
+            ]);
+        return redirect()->route('actividades.inicio')->with('success', 'ACTIVIDAD MODIFICADA EXITOSAMENTE');
     }
 }

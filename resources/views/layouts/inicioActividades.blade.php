@@ -130,6 +130,12 @@
                                     <th scope="col">Semana</th>
                                     <th scope="col">Enviado</th>
                                     <th scope="col">Opción</th>
+                                    @if ($showModify == 'true')
+                                        <th scope="col">Indicaciones DG</th>
+                                    @endif
+                                    @if ($showModify == 'true')
+                                        <th scope="col">Modificar</th>
+                                    @endif
                                 </tr>
                             </thead>
 
@@ -168,11 +174,13 @@
                                             <td width="120px">
                                                 @if ($actividad->fecha_enviado == null)
                                                     <div class="row d-flex justify-content-center">
-                                                        <a class="btn btn-info btn-circle m-1 btn-circle-sm" title="Modificar"
-                                                            href="#"
-                                                            onclick="document.getElementById('formStatus_' + {{ $actividad->id }}).submit()">
-                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                        </a>
+                                                        @if ($showModify != 'true')
+                                                            <a class="btn btn-info btn-circle m-1 btn-circle-sm" title="Modificar Status"
+                                                                href="#"
+                                                                onclick="document.getElementById('formStatus_' + {{ $actividad->id }}).submit()">
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                            </a>
+                                                        @endif
 
                                                         <a class="btn btn-danger btn-circle m-1 btn-circle-sm" title="Eliminar"
                                                             href="{{ route('actividades.destroy', ['id'=>$actividad->id, 'semana'=>$actividad->semana]) }}">
@@ -183,6 +191,42 @@
                                                     NO DISPONIBLE
                                                 @endif
                                             </td>
+
+                                            @if ($showModify == 'true')
+                                                <td width="140px">
+                                                    @if ($actividad->mostrar != null)
+                                                        @if ( str_contains($actividad->mostrar, 'Director'))
+                                                            {{ $actividad->ind_direccion }}
+                                                        @else
+                                                            <small>Permiso no otorgado</small>
+                                                        @endif
+                                                    @else
+                                                        {{ $actividad->ind_direccion }}
+                                                    @endif
+                                                    
+                                                </td>
+                                            @endif
+                                        
+                                            @if ($showModify == 'true' && $show == 'true')
+                                                <td>
+                                                    <button onclick="showModal({{$actividad}})" type="button" class="btn btn-success btn-sm" 
+                                                        data-toggle="modal" data-target="#modalModify">Modificar</button>
+                                                </td>
+                                            @else
+                                                @if ($showModify != 'false')
+                                                    <td>
+                                                        @if ($actividad->fecha_vToBueno == null)
+                                                            <button onclick="showModal({{$actividad}})" type="button" class="btn btn-success btn-sm" 
+                                                                data-toggle="modal" data-target="#modalModify">Modificar</button>
+                                                        @elseif($actividad->mostrar != null && str_contains($actividad->mostrar, 'Director'))
+                                                            <button onclick="showModal({{$actividad}})" type="button" class="btn btn-success btn-sm" 
+                                                            data-toggle="modal" data-target="#modalModify">Modificar</button>
+                                                        @else
+                                                            No Disponible
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                            @endif
                                         </form>
                                     </tr>
                                 @endforeach
@@ -242,6 +286,71 @@
                 </div>
             </div>
         </div>
+
+        {{-- modal modificar --}}
+        <div id="modalModify" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    
+                    <form action="{{route('actividades.editar2')}}" method="post">
+                        @csrf
+
+                        {{-- <input class="d-none" id="tipo_activi" name="tipo_activi" type="text" value="{{$actividad2}}"> --}}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modificación de actividad</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input class="d-none" type="text" id="id" name="id">
+                            <div class="form-group col">
+                                <label for="fechaD" class="control-label">Fecha</label>
+                                <input type='text' id="fechaD" autocomplete="off" readonly="readonly" name="fechaD"
+                                class="form-control datepicker" required>
+                            </div>
+                            <div class="form-group col">
+                                <label for="asuntoD" class="control-label">Asunto</label>
+                                <textarea name="asuntoD" id="asuntoD" class="form-control" placeholder="Asunto" cols="30" rows="2"></textarea>
+                            </div>
+                            <div class="form-group col">
+                                <label for="actividadD" class="control-label">Actividad</label>
+                                <textarea name="actividadD" id="actividadD" class="form-control" placeholder="Actividad" cols="30" rows="2"></textarea>
+                            </div>
+                            <div class="form-group col">
+                                <label for="observacionesD" class="control-label">Observaciones</label>
+                                <textarea class="form-control" name="observacionesD" id="observacionesD" cols="30" rows="2" placeholder="Observaciones"></textarea>
+                            </div>
+                            <div class="form-group col">
+                                <label for="semanaD" class="control-label">Semana</label>
+                                <input type="number" class="form-control" id="semanaD" name="semanaD" placeholder="Semana">
+                            </div>
+                            <div class="form-group col">
+                                <label for="statusD" class="control-label">Estado</label>
+                                <select name="statusD" class="form-control" id="statusD">
+                                    <option value="INICIADO">INICIADO</option>
+                                    <option value="EN PROCESO">EN PROCESO</option>
+                                    <option value="TERMINADO">TERMINADO</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col">
+                                <label for="tipo_actividadD" class="control-label">Tipo de actividad</label>
+                                <select name="tipo_actividadD" class="form-control" id="tipo_actividadD">
+                                    <option value="ACTIVIDAD">ACTIVIDAD</option>
+                                    <option value="PERMISO">PERMISO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -250,6 +359,14 @@
 
     <script>
         $("#fecha").datepicker({
+            language: "es",
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1,
+            dateFormat: 'yy-mm-dd'
+        });
+
+        $("#fechaD").datepicker({
             language: "es",
             defaultDate: "+1w",
             changeMonth: true,
@@ -324,6 +441,17 @@
                 }
             }
         });
+
+        function showModal(actividad) {
+            $('#id').val(actividad['id']);
+            $('#fechaD').val(actividad['fecha']);
+            $('#asuntoD').val(actividad['asunto']);
+            $('#actividadD').val(actividad['actividad']);
+            $('#observacionesD').val(actividad['observaciones']);
+            $('#semanaD').val(actividad['semana']);
+            $('#statusD').val(actividad['status']);
+            $('#tipo_actividadD').val(actividad['tipo_actividad']);
+        }
 
     </script>
 

@@ -26,6 +26,7 @@ Route::post('/Actividades/guardar', 'ActividadesController@store')->name('activi
 Route::get('/Actividades/{id}/{semana}', 'ActividadesController@destroy')->name('actividades.destroy');
 Route::post('/Actividades/enviar', 'ActividadesController@send')->name('actividades.enviar');
 Route::post('/Actividades/editar/{id}/{semana}', 'ActividadesController@update')->name('actividades.editar');
+Route::post('/Actividades/editar2', 'ActividadesController@update2')->name('actividades.editar2');
 
 Route::get('/vistoBueno/inicio', 'VtoBuenoController@index')->name('vtoBueno.inicio');
 Route::post('/vistoBueno/editar', 'VtoBuenoController@update')->name('vtoBueno.editar');
