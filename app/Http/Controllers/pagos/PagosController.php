@@ -34,17 +34,24 @@ class PagosController extends Controller {
             $fechaFinal = session('fechaFinal');
 
             $unidad = DB::table('unidades')->where('id', '=', $id)->get();
-            $pagos = Pagos::where('id_unidad', '=', $id)->where('fecha_enviado', '!=', null)
-                    ->whereBetween('start', [$fechaInicio, $fechaFinal])
-                    ->orderBy('start', 'ASC')->get();
+            $pagosProgramados = Pagos::where('id_unidad', '=', $id)->where('fecha_enviado', '!=', null)
+                ->where('backgroundColor', '=', null)
+                ->whereBetween('start', [$fechaInicio, $fechaFinal])
+                ->orderBy('start', 'ASC')->get();
+            $pagosBanca = Pagos::where('id_unidad', '=', $id)->where('fecha_enviado', '!=', null)
+                ->where('backgroundColor', '=', '#fceb30')
+                ->whereBetween('start', [$fechaInicio, $fechaFinal])->get();
+            $efectivos = Pagos::where('id_unidad', '=', $id)->where('fecha_enviado', '!=', null)
+                ->where('backgroundColor', '=', '#00ff04')
+                ->whereBetween('start', [$fechaInicio, $fechaFinal])->get();
 
             $totalPagos = 0;
-            foreach ($pagos as $pago) {
+            foreach ($pagosProgramados as $pago) {
                 $date = date_create($pago->start);
                 $fecha=date_format($date, 'Y-m-d');
                 $pago->start = $fecha;
                 $totalPagos += $pago->title;
-                $day = Carbon::parse($pago->start)->format('l');
+                /* $day = Carbon::parse($pago->start)->format('l');
                 switch ($day) {
                     case 'Monday':
                         $pago->dia = 'Lunes';
@@ -67,10 +74,26 @@ class PagosController extends Controller {
                     case 'Sunday':
                         $pago->dia = 'Domingo';
                         break;
-                }
+                } */
+            }
+            $totalBanca = 0;
+            foreach ($pagosBanca as $value) {
+                $date = date_create($value->start);
+                $fecha=date_format($date, 'Y-m-d');
+                $value->start = $fecha;
+                $totalBanca += $value->title;
+            }
+            $totalEfectivos = 0;
+            foreach ($efectivos as $value1) {
+                $date = date_create($value1->start);
+                $fecha=date_format($date, 'Y-m-d');
+                $value1->start = $fecha;
+                $totalEfectivos += $value1->title;
             }
 
-            $pdf = PDF::loadView('layouts.pdfs.reportePagos', compact('unidad', 'fechaInicio', 'fechaFinal', 'totalPagos', 'pagos'));
+            $title = 'REPORTE PAGOS REALIZADOS';
+            $pdf = PDF::loadView('layouts.pdfs.reportePagos', compact('unidad', 'fechaInicio', 'fechaFinal', 'totalPagos', 
+                'pagosProgramados', 'title', 'pagosBanca', 'efectivos', 'totalBanca', 'totalEfectivos'));
             $pdf->setPaper('A4', 'Landscape');
             return $pdf->stream('download.pdf');
         } else {

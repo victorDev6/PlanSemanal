@@ -75,3 +75,6 @@ Route::get('/pagosRealizados/reporte', 'pagos\PagosController@reporte')->name('p
 // cronograma de pagos
 Route::get('/cronogramaPagos/inicio', 'pagos\CronogramaPagosController@index')->name('cronogramaPagos.inicio');
 Route::get('/cronogramaPagos/reporte', 'pagos\CronogramaPagosController@reporte')->name('cronogramaPagos.reporte');
+
+// previualizar
+Route::post('/pagos/previsualizar', 'pagos\AddPagoController@previsualizar')->name('pagos.previsualizar');

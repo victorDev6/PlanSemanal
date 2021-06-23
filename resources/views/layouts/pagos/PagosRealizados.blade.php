@@ -62,15 +62,41 @@
         </div>
 
         <hr class="my-4">
-        <div class="row d-flex justify-content-center" style="position: relative;">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-5">
+                <div class="row d-flex justify-content-center px-5 mt-2">
+                    <div>
+                        <strong>AZUL</strong> - Pagos Programados
+                    </div>
+                    <div class="mx-4">
+                        <strong>AMARILLO</strong> - Cargados al Banco 
+                    </div>
+                    <div>
+                        <strong>VERDE</strong> - Efectivamente Pagados
+                    </div>
+                </div>
+
+                <div class="mt-5">Comentarios:</div>
+                <div class="row d-flex justify-content-center px-5 mt-2">
+                    <strong id="divComentarios"></strong>
+                </div>
+
+                {{-- <div class="row d-flex justify-content-center mt-5">
+                    <button id="btnTotal" type="button"
+                        class="btn btn-warning">Total de Pagos Realizados</button>
+                </div> --}}
+                <div class="row d-flex justify-content-center mt-4">
+                    <button id="btnReporte"  type="button"
+                        class="btn btn-info">Generar Reporte</button>
+                    <form target="_blank" id="formReporte" action="{{ route('pagosRealizados.reporte') }}" method="get">@csrf</form>
+                </div>
+            </div>
+            
             <div class="col-12 col-md-6">
                 <div id='calendar'></div>
             </div>
-            <button id="btnTotal" style="position: absolute; bottom: 120px; right: 50px;" type="button"
-                class="btn btn-warning">Total de Pagos Realizados</button>
-            <button id="btnReporte" style="position: absolute; bottom: 170px; right: 50px;" type="button"
-                class="btn btn-info">Generar Reporte</button>
-            <form id="formReporte" action="{{ route('pagosRealizados.reporte') }}" method="get">@csrf</form>
+
+            <div class="col-12 col-md-1"></div>
         </div>
 
         <button id="btnModal" type="button" class="d-none" data-toggle="modal" data-target="#modalMessages"></button>
@@ -152,7 +178,9 @@
                     right: 'dayGridMonth, timeGridWeek, timeGridDay',
                 },
                 dateClick: function(info) {},
-                eventClick: function(info) {},
+                eventClick: function(info) {
+                    $('#divComentarios').html(info.event.extendedProps.comentarios);
+                },
                 events: ("{{ url('/pagosRealizados/show') }}" + ('/' + unidad + '/' + fechaInicio + '/' + fechaFinal)),
             });
             calendar.setOption('locale', 'es');

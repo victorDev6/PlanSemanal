@@ -1,7 +1,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>REPORTE PAGOS REALIZADOS</title>
+    <title>{{$title}}</title>
     <link rel="stylesheet" type="text/css" href="{{ public_path('vendor/bootstrap/3.4.1/bootstrap.min.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -11,7 +11,7 @@
         }
 
         @page {
-            margin: 110px 40px 110px;
+            margin: 110px 30px 110px;
         }
 
         header {
@@ -131,10 +131,22 @@
                 <td width="20%"><small>RANGO DE FECHA:</td>
                 <td width="80%"><small><strong>{{$fechaInicio}}</strong> - <strong>{{$fechaFinal}}</strong></small></td>
             </tr>
-            <tr>
+            {{-- <tr>
                 <td width="20%"><small>TOTAL DE PAGOS REALIZADOS:</td>
                 <td width="80%"><small><strong>{{$totalPagos}}</strong></small></td>
-            </tr>  
+            </tr>   --}}
+        </tbody>
+    </table>
+    <table width="100%">
+        <tbody>
+            <tr>
+                <td width="80%"><small>TOTAL DE PAGOS PROGRAMADOS:</td>
+                <td width="20%"><small><strong>{{$totalPagos}}</strong></small></td>
+                <td width="80%"><small>TOTAL DE PAGOS ENVIADOS A LA BANCA:</td>
+                <td width="20%"><small><strong>{{$totalBanca}}</strong></small></td>
+                <td width="80%"><small>TOTAL DE PAGOS EFECTIVAMENTE PAGADOS:</td>
+                <td width="20%"><small><strong>{{$totalEfectivos}}</strong></small></td>
+            </tr>
         </tbody>
     </table>
 
@@ -143,16 +155,53 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col"><small>Fecha</small></th>
-                    <th scope="col"><small>Dia</small></th>
-                    <th scope="col"><small>Pagos Realizados</small></th>
+                    {{-- <th scope="col"><small>Dia</small></th> --}}
+                    <th scope="col"><small> Pagos Programados</small></th>
+                    <th scope="col"><small>Comentarios</small></th>
+                    <th scope="col"><small>Enviados a la Banca</small></th>
+                    <th scope="col"><small>Comentarios</small></th>
+                    <th scope="col"><small>Efectivamente Pagados</small></th>
+                    <th scope="col"><small>Comentarios</small></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($pagos as $pago)
+                @foreach ($pagosProgramados as $pago)
                     <tr>
-                        <td scope="col">{{$pago->start}}</td>
-                        <td scope="col">{{$pago->dia}}</td>
-                        <td scope="col">{{$pago->title}}</td>
+                        <td scope="col"><small>{{$pago->start}}</small></td>
+                        <td scope="col"><small>{{$pago->title}}</small></td>
+                        <td scope="col"><small>{{$pago->comentarios}}</small></td>
+                        <td scope="col">
+                            @foreach ($pagosBanca as $banca)
+                                @if ($pago->start == $banca->start)
+                                    <small>{{$banca->title}}</small>
+                                    {{-- <td scope="col"><small>{{$banca->title}}</small></td> --}}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td scope="col">
+                            @foreach ($pagosBanca as $banca)
+                                @if ($pago->start == $banca->start)
+                                    <small>{{$banca->comentarios}}</small>
+                                    {{-- <td scope="col"><small>{{$banca->comentarios}}</small></td> --}}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td scope="col">
+                            @foreach ($efectivos as $item)
+                                @if ($pago->start == $item->start)
+                                    <small>{{$item->title}}</small>
+                                    {{-- <td scope="col"><small>{{$item->title}}</small></td> --}}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td scope="col">
+                            @foreach ($efectivos as $item)
+                                @if ($pago->start == $item->start)
+                                    <small>{{$item->comentarios}}</small>
+                                    {{-- <td scope="col"><small>{{$item->comentarios}}</small></td> --}}
+                                @endif
+                            @endforeach
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

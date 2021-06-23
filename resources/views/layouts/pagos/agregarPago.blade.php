@@ -36,9 +36,9 @@
             </div>
         </div>
 
-        <hr class="my-4">
+        <hr class="my-3">
         <div class="row">
-            <div class="col-12 col-md-6 mt-5">
+            <div class="col-12 col-md-6">
 
                 <form id="formCalendario">
                     <div class="row d-flex justify-content-center">
@@ -54,21 +54,36 @@
                     <div class="row d-flex justify-content-center">
                         <div class="col-6">
                             <div class="form-group">
+                                <label for="tipoPago">Tipo de Pago</label>
+                                <select name="tipoPago" id="tipoPago" class="custom-select">
+                                    <option value="">Seleccione el Tipo de Pago</option>
+                                    <option value="1">Pagos Programados</option>
+                                    <option value="2">Cargados al Banco</option>
+                                    <option value="3">Efectivamente Pagados</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="">Número de Pagos</label>
                                 <input type="number" class="form-control" name="txtNumero" id="txtNumero" required>
                             </div>
                         </div>
                     </div>
 
-                    {{-- <div class="row d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="">Comentarios</label>
-                                <textarea class="form-control" name="txtComentarios" id="txtComentarios" cols="30"
-                                    rows="2"></textarea>
+                                <label for="txtComentarios">Comentarios</label>
+                                <textarea class="form-control" name="txtComentarios" id="txtComentarios"
+                                    rows="3"></textarea>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
+
                     <div class="row d-flex justify-content-center">
                         <div class="col-6">
                             <div class="form-group">
@@ -78,27 +93,36 @@
                         </div>
                     </div>
 
-                    <br>
-                    <div class="row d-flex justify-content-center px-5">
+                    <div class="row d-flex justify-content-center px-2">
                         <button id="btnAgregar" type="button" class="btn btn-success">Agregar</button>
                         <button id="btnModificar" class="btn btn-warning mx-2">Modificar</button>
                         <button id="btnBorrar" class="btn btn-danger">Borrar</button>
                     </div>
-
-                    <br>
-                    <div class="row d-flex justify-content-center px-5">
-                        <button id="btnClean" type="button" class="btn btn-info">Limpiar campos</button>
-                        <button id="btnSend" type="button" class="btn btn-primary ml-2">Enviar Pagos</button>
-                    </div>
                 </form>
 
-                {{-- <br>
-                <div class="row d-flex justify-content-center px-5">
-                    <button id="btnPrevisualizar" type="submit" class="btn btn-light">Previsualizar Antes de Enviar</button>
-                </div> --}}
+                <div class="row d-flex justify-content-center px-5 mt-2">
+                    <button id="btnClean" type="button" class="btn btn-info">Limpiar campos</button>
+                    <button id="btnSend" type="button" class="btn btn-primary ml-2">Enviar Pagos</button>
+                    <button disabled id="btnPrevisualizar" type="submit" class="btn btn-dark ml-2"><strong>Previsualizar
+                            Antes de Enviar</strong></button>
+                </div>
 
-                <button id="btnModal" type="button" class="d-none" data-toggle="modal" data-target="#modalMessages"></button>
-                <button id="btnModalPrev" type="button" class="d-none" data-toggle="modal" data-target="#modalPrevisualizar"></button>
+                <div class="row d-flex justify-content-center px-5 mt-2">
+                    <div>
+                        <strong>AZUL</strong> - Pagos Programados
+                    </div>
+                    <div class="mx-4">
+                        <strong>AMARILLO</strong> - Cargados al Banco 
+                    </div>
+                    <div>
+                        <strong>VERDE</strong> - Efectivamente Pagados
+                    </div>
+                </div>
+
+                <button id="btnModal" type="button" class="d-none" data-toggle="modal"
+                    data-target="#modalMessages"></button>
+                <button id="btnModalPrev" type="button" class="d-none" data-toggle="modal"
+                    data-target="#modalPrevisualizar"></button>
 
             </div>
             <div class="col-12 col-md-6">
@@ -129,12 +153,12 @@
         </div>
 
         <!-- Modal previsualizar-->
-        <div class="modal fade" id="modalPrevisualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
+        <div class="modal fade" id="modalPrevisualizar" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
 
-                    <form id="formFechasPrev" action="" method="post">
+                    <form id="formFechasPrev" action="{{ route('pagos.previsualizar') }}" method="post" target="_blank">
                         @csrf
 
                         <div class="modal-header" style="background: #541533">
@@ -144,23 +168,25 @@
                             </button>
                         </div>
                         <div class="modal-body">
+
+                            <input class="d-none" id="txtUniPrev" name="txtUniPrev" type="text">
                             <div class="row mt-2">
                                 <!-- fecha inicial -->
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="fecha_inicio" class="control-label">Fecha de Inicio</label>
-                                        <input type='text' id="fecha_inicio" autocomplete="off" readonly="readonly" name="fecha_inicio"
-                                            class="form-control datepicker" required>
+                                        <input type='text' id="fecha_inicio" autocomplete="off" readonly="readonly"
+                                            name="fecha_inicio" class="form-control datepicker" required>
                                     </div>
                                     {{-- value="{{$fechaInicio}}" --}}
                                 </div>
-                
+
                                 <!-- Fecha conclusion -->
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="fecha_termino" class="control-label">Fecha de Termino</label>
-                                        <input type='text' id="fecha_termino" autocomplete="off" readonly="readonly" name="fecha_termino"
-                                            class="form-control datepicker" required>
+                                        <input type='text' id="fecha_termino" autocomplete="off" readonly="readonly"
+                                            name="fecha_termino" class="form-control datepicker" required>
                                     </div>
                                     {{-- value="{{$fechaTermino}}" --}}
                                 </div>
@@ -169,10 +195,11 @@
                         <div class="modal-footer">
                             {{-- <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button> --}}
                             <div class="col d-flex align-items-center">
-                                <button type="submit" id="btnBuscarCurso" class="btn btn-primary">ACEPTAR</button>
+                                <button type="submit" id="btnBuscarCurso"
+                                    class="btn btn-primary mr-2">Previsualizar</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
-
                     </form>
 
                 </div>
@@ -203,12 +230,37 @@
                 unidad = $('#unidad').val();
                 limpiarFormulario();
                 inicializarCalendario(unidad);
+                console.log(unidad);
+                if (unidad != '') {
+                    $('#txtUniPrev').val(unidad);
+                    $('#btnPrevisualizar').prop('disabled', false);
+                } else {
+                    $('#txtUniPrev').val('');
+                    $('#btnPrevisualizar').prop('disabled', true);
+                }
             });
 
             $('#btnAgregar').click(function() {
-                miFecha = new Date()
-                var valid = false;
-                // var valid = true;
+
+                if ($('#unidad').val() == '') {
+                    $('#titulo').html('Unidad de Capacitación');
+                    $('#mensaje').html('Seleccione una unidad de capacitación');
+                    $('#btnModal').click();
+                } else if ($('#txtFecha').val() == '' || $('#txtNumero').val() == '' || $('#tipoPago')
+                .val() == '') {
+                    $('#titulo').html('Campos Vacíos');
+                    $('#mensaje').html('Todos los campos son requeridos');
+                    // $('#mensaje').html('Seleccione una fecha, seleccione el tipo de pago a agregar y agregue el número de pagos realizados');
+                    $('#btnModal').click();
+                } else {
+                    objEvento = null;
+                    objEvento = recolectarDatos("POST");
+                    EnviarInformacion("", objEvento, 'insert');
+                }
+
+                /* miFecha = new Date()
+                // var valid = false;
+                var valid = true;
 
                 if (miFecha.getDay() >= 5 || miFecha.getDay() <= 1) { //viernes a lunes
                     if (miFecha.getDay() == 5) { //viernes 
@@ -229,9 +281,10 @@
                         $('#titulo').html('Unidad de Capacitación');
                         $('#mensaje').html('Seleccione una unidad de capacitación');
                         $('#btnModal').click();
-                    } else if ($('#txtFecha').val() == '' || $('#txtNumero').val() == '') {
+                    } else if ($('#txtFecha').val() == '' || $('#txtNumero').val() == '' || $('#tipoPago').val() == '') {
                         $('#titulo').html('Campos Vacíos');
-                        $('#mensaje').html('Seleccione una fecha y agregue el número de pagos realizados');
+                        $('#mensaje').html('Todos los campos son requeridos');
+                        // $('#mensaje').html('Seleccione una fecha, seleccione el tipo de pago a agregar y agregue el número de pagos realizados');
                         $('#btnModal').click();
                     } else {
                         objEvento = null;
@@ -243,7 +296,7 @@
                     $('#mensaje').html(
                         'Unicamente puede agregar pagos de Viernes 04:00 PM a Lunes 11:00 AM');
                     $('#btnModal').click();
-                }
+                } */
             });
 
             // boton eliminar
@@ -258,9 +311,10 @@
             $('#btnModificar').click(function(e) {
                 e.preventDefault();
 
-                if ($('#txtNumero').val() == '') {
+                if ($('#txtNumero').val() == '' || $('#tipoPago').val() == '') {
                     $('#titulo').html('Campos Vacíos');
-                    $('#mensaje').html('Agregue el número de pagos realizados');
+                    $('#mensaje').html('Todos los campos son requeridos');
+                    // $('#mensaje').html('Agregue el número de pagos realizados');
                     $('#btnModal').click();
                 } else {
                     objEvento = null;
@@ -302,7 +356,9 @@
                     start: $('#txtFecha').val() + ' 00:00',
                     end: $('#txtFecha').val() + ' 00:00',
                     textColor: '#000000',
-                    comentarios: null,
+                    comentarios: $('#txtComentarios').val(),
+                    backgroundColor: $('#tipoPago').val() == '2' ? '#fceb30' : $('#tipoPago').val() == '3' ?
+                        '#00ff04' : null,
                     id_unidad: document.getElementById('unidad').value,
                     '_token': $("meta[name='csrf-token']").attr("content"),
                     '_method': method
@@ -386,6 +442,9 @@
                         $('#btnModificar').prop('disabled', false);
                         $('#btnBorrar').prop('disabled', false);
                     } else {
+                        $('#btnAgregar').prop('disabled', true);
+                    }
+                    /* else {
                         var date = new Date();
                         console.log(date.getDay());
                         console.log(date.getHours());
@@ -399,17 +458,21 @@
                             $('#btnModificar').prop('disabled', true);
                             $('#btnBorrar').prop('disabled', true);
                         }
-                    }
+                    } */
 
+                    console.log('color: '+ info.event.backgroundColor);
                     mes = (info.event.start.getMonth() + 1);
                     dia = (info.event.start.getDate());
                     anio = (info.event.start.getFullYear());
                     mes = (mes < 10) ? '0' + mes : mes;
                     dia = (dia < 10) ? '0' + dia : dia;
 
+                    typePago = info.event.backgroundColor == 'null' ? '1' : info.event.backgroundColor == '#fceb30' ? '2' : '3'; 
+
                     $('#txtId').val(info.event.id);
                     $('#txtNumero').val(info.event.title),
-                        $('#txtFecha').val(dia + '-' + mes + '-' + anio);
+                    $('#txtFecha').val(dia + '-' + mes + '-' + anio);
+                    $('#tipoPago').val(typePago);
                     $('#txtComentarios').val(info.event.extendedProps.comentarios);
                     $('#textSend').html(info.event.extendedProps.fecha_enviado == null ? 'NO' : 'SI')
                 },
@@ -422,6 +485,25 @@
 
         $('#btnPrevisualizar').click(function() {
             $('#btnModalPrev').click();
+        });
+
+        $('#formFechasPrev').validate({
+            rules: {
+                fecha_inicio: {
+                    required: true
+                },
+                fecha_termino: {
+                    required: true
+                }
+            },
+            messages: {
+                fecha_inicio: {
+                    required: 'Campo requerido'
+                },
+                fecha_termino: {
+                    required: 'Campo requerido'
+                }
+            }
         });
 
         // formato fechas
