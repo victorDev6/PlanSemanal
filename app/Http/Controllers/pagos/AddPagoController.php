@@ -21,7 +21,8 @@ class AddPagoController extends Controller
 
     public function store(Request $request)
     {
-        $datosEvento = request()->except(['_token', '_method']);
+        $date = date('Y-m-d H:i:s');
+        $datosEvento = request()->merge(['fecha_registro' => $date])->except(['_token', '_method']);
         Pagos::insert($datosEvento);
     }
 

@@ -143,7 +143,7 @@
                 <td> </td><td> </td><td> </td>
                 <td><small><strong>EP</strong> - Pagos Efectivamente Pagados</small></td>
                 <td> </td><td> </td><td> </td>
-                <td><small><strong>NA</strong> - No Agregado</small></td>
+                <td><small><strong>0 </strong> - No Agregado</small></td>
             </tr>
         </tbody>
     </table>
@@ -190,7 +190,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$cp != null ? $cp : 'NA'}} - {{$cb != null ? $cb : 'NA'}} - {{$ce != null ? $ce : 'NA'}}</small>
+                        <small>{{$cp != null ? $cp : '0'}} - {{$cb != null ? $cb : '0'}} - {{$ce != null ? $ce : '0'}}</small>
                     </td>
                     <td> {{-- jiquipilas --}}
                         <div style="display: none">{{$jp = null}}</div>
@@ -207,7 +207,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$jp != null ? $jp : 'NA'}} - {{$jb != null ? $jb : 'NA'}} - {{$je != null ? $je : 'NA'}}</small>
+                        <small>{{$jp != null ? $jp : '0'}} - {{$jb != null ? $jb : '0'}} - {{$je != null ? $je : '0'}}</small>
                     </td>
                     <td> {{-- catazaja --}}
                         <div style="display: none">{{$cap = null}}</div>
@@ -224,7 +224,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$cap != null ? $cap : 'NA'}} - {{$cab != null ? $cab : 'NA'}} - {{$cae != null ? $cae : 'NA'}}</small>
+                        <small>{{$cap != null ? $cap : '0'}} - {{$cab != null ? $cab : '0'}} - {{$cae != null ? $cae : '0'}}</small>
                     </td>
                     <td> {{-- reforma --}}
                         <div style="display: none">{{$rp = null}}</div>
@@ -241,7 +241,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$rp != null ? $rp : 'NA'}} - {{$rb != null ? $rb : 'NA'}} - {{$re != null ? $re : 'NA'}}</small>
+                        <small>{{$rp != null ? $rp : '0'}} - {{$rb != null ? $rb : '0'}} - {{$re != null ? $re : '0'}}</small>
                     </td>
                     <td> {{-- tapachula --}}
                         <div style="display: none">{{$tp = null}}</div>
@@ -258,7 +258,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$tp != null ? $tp : 'NA'}} - {{$tb != null ? $tb : 'NA'}} - {{$te != null ? $te : 'NA'}}</small>
+                        <small>{{$tp != null ? $tp : '0'}} - {{$tb != null ? $tb : '0'}} - {{$te != null ? $te : '0'}}</small>
                     </td>
                     <td> {{-- san cristobal --}}
                         <div style="display: none">{{$sp = null}}</div>
@@ -275,7 +275,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$sp != null ? $sp : 'NA'}} - {{$sb != null ? $sb : 'NA'}} - {{$se != null ? $se : 'NA'}}</small>
+                        <small>{{$sp != null ? $sp : '0'}} - {{$sb != null ? $sb : '0'}} - {{$se != null ? $se : '0'}}</small>
                     </td>
                     <td> {{-- tuxtla --}}
                         <div style="display: none">{{$tup = null}}</div>
@@ -292,7 +292,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$tup != null ? $tup : 'NA'}} - {{$tub != null ? $tub : 'NA'}} - {{$tue != null ? $tue : 'NA'}}</small>
+                        <small>{{$tup != null ? $tup : '0'}} - {{$tub != null ? $tub : '0'}} - {{$tue != null ? $tue : '0'}}</small>
                     </td>
                     <td> {{-- tonala --}}
                         <div style="display: none">{{$top = null}}</div>
@@ -309,7 +309,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$top != null ? $top : 'NA'}} - {{$tob != null ? $tob : 'NA'}} - {{$toe != null ? $toe : 'NA'}}</small>
+                        <small>{{$top != null ? $top : '0'}} - {{$tob != null ? $tob : '0'}} - {{$toe != null ? $toe : '0'}}</small>
                     </td>
                     <td> {{-- ocosingo --}}
                         <div style="display: none">{{$op = null}}</div>
@@ -326,7 +326,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$op != null ? $op : 'NA'}} - {{$ob != null ? $ob : 'NA'}} - {{$oe != null ? $oe : 'NA'}}</small>
+                        <small>{{$op != null ? $op : '0'}} - {{$ob != null ? $ob : '0'}} - {{$oe != null ? $oe : '0'}}</small>
                     </td>
                     <td> {{-- villaflores --}}
                         <div style="display: none">{{$vp = null}}</div>
@@ -343,7 +343,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$vp != null ? $vp : 'NA'}} - {{$vb != null ? $vb : 'NA'}} - {{$ve != null ? $ve : 'NA'}}</small>
+                        <small>{{$vp != null ? $vp : '0'}} - {{$vb != null ? $vb : '0'}} - {{$ve != null ? $ve : '0'}}</small>
                     </td>
                     <td> {{-- yajalon --}}
                         <div style="display: none">{{$yp = null}}</div>
@@ -360,7 +360,7 @@
                                 @endif
                             @endif
                         @endforeach
-                        <small>{{$yp != null ? $yp : 'NA'}} - {{$yb != null ? $yb : 'NA'}} - {{$ye != null ? $ye : 'NA'}}</small>
+                        <small>{{$yp != null ? $yp : '0'}} - {{$yb != null ? $yb : '0'}} - {{$ye != null ? $ye : '0'}}</small>
                     </td>
                 </tr>
             @endforeach
