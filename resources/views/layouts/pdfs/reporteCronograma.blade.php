@@ -117,7 +117,7 @@
         <br>
     </header>
     <footer>
-        <img class="izquierdabot" src="{{ public_path('img/franja.png') }}">
+        {{-- <img class="izquierdabot" src="{{ public_path('img/franja.png') }}"> --}}
         <img class="derechabot" src="{{ public_path('img/icatech-imagen.png') }}">
     </footer>
 

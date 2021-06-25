@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Pagos;
+use Carbon\Carbon;
 use PDF;
 
 class CronogramaPagosController extends Controller {
     
     public function index(Request $request) {
         $unidades = DB::table('unidades')->get();
+        foreach ($unidades as $value) {
+            $value->nombre = ucfirst(mb_substr($value->nombre, 23, null, 'UTF-8'));
+        }
 
         $fechaInicio = $request->fecha_inicio;
         $fechaTermino = $request->fecha_termino;
@@ -21,9 +25,12 @@ class CronogramaPagosController extends Controller {
         }
 
         $pagos = Pagos::where('fecha_enviado', '!=', null)
-                        ->whereBetween('start', [$fechaInicio, $fechaTermino])
-                        ->orderBy('start', 'ASC')
-                        ->get();
+                    ->whereBetween('start', [$fechaInicio, $fechaTermino])
+                    ->orderBy('start', 'ASC')
+                    ->get();
+        foreach ($pagos as $value) {
+            $value->fecha_registro = Carbon::parse($value->fecha_registro)->format('Y/m/d');
+        }
 
         $grouped = $pagos->groupBy('start');
         $grouped->toArray();
@@ -43,11 +50,17 @@ class CronogramaPagosController extends Controller {
             $fechaTermino = session('fechaTermino');
 
             $unidades = DB::table('unidades')->get();
+            foreach ($unidades as $value) {
+                $value->nombre = ucfirst(mb_substr($value->nombre, 23, null, 'UTF-8'));
+            }
 
             $pagos = Pagos::where('fecha_enviado', '!=', null)
                         ->whereBetween('start', [$fechaInicio, $fechaTermino])
                         ->orderBy('start', 'ASC')
                         ->get();
+            foreach ($pagos as $value) {
+                $value->fecha_registro = Carbon::parse($value->fecha_registro)->format('Y/m/d');
+            }
 
             $grouped = $pagos->groupBy('start');
             $grouped->toArray();
