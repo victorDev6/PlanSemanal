@@ -81,6 +81,11 @@
                     <strong id="divComentarios"></strong>
                 </div>
 
+                <div class="mt-3">Fecha de registro:</div>
+                <div class="row d-flex justify-content-center px-5 mt-2">
+                    <strong id="divFechaRegistro"></strong>
+                </div>
+
                 {{-- <div class="row d-flex justify-content-center mt-5">
                     <button id="btnTotal" type="button"
                         class="btn btn-warning">Total de Pagos Realizados</button>
@@ -180,6 +185,7 @@
                 dateClick: function(info) {},
                 eventClick: function(info) {
                     $('#divComentarios').html(info.event.extendedProps.comentarios);
+                    $('#divFechaRegistro').html(info.event.extendedProps.fecha_registro);
                 },
                 events: ("{{ url('/pagosRealizados/show') }}" + ('/' + unidad + '/' + fechaInicio + '/' + fechaFinal)),
             });

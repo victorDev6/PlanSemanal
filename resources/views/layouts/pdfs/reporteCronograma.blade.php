@@ -148,18 +148,19 @@
         </tbody>
     </table>
     
-    <div style="display: none"> {{$cp = null, $cb = null, $ce = null, $jp = null, $jb = null, $je = null,
-            $cap = null, $cab = null, $cae = null, $rp = null, $rb = null, $re = null,
-            $tp = null, $tb = null, $te = null, $sp = null, $sb = null, $se = null,
-            $tup = null, $tub = null, $tue = null, $top = null, $tob = null, $toe = null,
-            $op = null, $ob = null, $oe = null, $vp = null, $vb = null, $ve = null,
-            $yp = null, $yb = null, $ye = null}}</div>
+    <div style="display: none"> {{$cp = 0, $cb = 0, $ce = 0, $jp = 0, $jb = 0, $je = 0,
+            $cap = 0, $cab = 0, $cae = 0, $rp = 0, $rb = 0, $re = 0,
+            $tp = 0, $tb = 0, $te = 0, $sp = 0, $sb = 0, $se = 0,
+            $tup = 0, $tub = 0, $tue = 0, $top = 0, $tob = 0, $toe = 0,
+            $op = 0, $ob = 0, $oe = 0, $vp = 0, $vb = 0, $ve = 0,
+            $yp = 0, $yb = 0, $ye = 0}}</div>
     <div style="display: none">{{$comitan = 0, $comitanBanco = 0, $comitanEfectivos = 0,  $jiquipilas = 0, $jiquipilasBanco = 0, $jiquipilasEfectivos = 0, 
             $catazaja = 0, $catazajaBanco = 0, $catazajaEfectivos = 0, $reforma = 0, $reformaBanco = 0, $reformaEfectivos = 0, 
             $tapachula = 0, $tapachulaBanco = 0, $tapachulaEfectivos = 0, $sanCristobal = 0, $sanCristobalBanco = 0, $sanCristobalEfectivos = 0, 
             $tuxtla = 0, $tuxtlaBanco = 0, $tuxtlaEfectivos = 0,$tonala = 0, $tonalaBanco = 0, $tonalaEfectivos = 0, 
             $ocosingo = 0, $ocosingoBanco = 0, $ocosingoEfectivos = 0, $villaflores = 0, $villafloresBanco = 0, $villafloresEfectivos = 0, 
             $yajalon = 0, $yajalonBanco = 0, $yajalonEfectivos = 0}}</div>
+    <div style="display: none">{{$totalPP = 0, $totalCB = 0, $totalEP = 0, $totTotalPP = 0, $totTotalCB = 0, $totTotalEP = 0}}</div>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-light">
@@ -167,216 +168,328 @@
                 <td><small>Unidades de Capacitación</small></td>
                 @foreach ($unidades as $unidad)
                 {{-- th --}}
-                    <td><small>{{$unidad->nombre}} <br> PP - CB - EP</small></td>
+                    <td style="text-align: center" colspan="3"><small>{{$unidad->nombre}} <br> <small>PP - CB - EP</small></small></td>
                 @endforeach
+                <td class="text-center" colspan="3"><small><strong>Totales</strong> <br> <small>PP - CB - EP</small></small></td>
             </tr>
         </thead>
         <tbody>
             @foreach ($grouped as $group)
                 <tr>
                     <td><small>{{$group[0]->start}}</small></td>
-                    <td> {{-- comitan --}}
-                        <div style="display: none">{{$cp = null}}</div>
-                        <div style="display: none">{{$cb = null}}</div>
-                        <div style="display: none">{{$ce = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 1)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$comitan += $item->title}} {{$cp = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$comitanBanco += $item->title}} {{$cb = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$comitanEfectivos += $item->title}} {{$ce = $item->title}}</div>
-                                @endif
+                    {{-- comitan --}}
+                    <div style="display: none">{{$cp = 0}}</div>
+                    <div style="display: none">{{$cb = 0}}</div>
+                    <div style="display: none">{{$ce = 0}}</div>
+                    <div style="display: none">{{$totalPP = 0}}</div>
+                    <div style="display: none">{{$totalCB = 0}}</div>
+                    <div style="display: none">{{$totalEP = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 1)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$comitan += $item->title}} {{$cp = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$comitanBanco += $item->title}} {{$cb = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$comitanEfectivos += $item->title}} {{$ce = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$cp != null ? $cp : '0'}} - {{$cb != null ? $cb : '0'}} - {{$ce != null ? $ce : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$cp}}</small></small>
                     </td>
-                    <td> {{-- jiquipilas --}}
-                        <div style="display: none">{{$jp = null}}</div>
-                        <div style="display: none">{{$jb = null}}</div>
-                        <div style="display: none">{{$je = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 2)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$jiquipilas += $item->title}} {{$jp = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$jiquipilasBanco += $item->title}} {{$jb = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$jiquipilasEfectivos += $item->title}} {{$je = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$cb}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$ce}}</small></small>
+                    </td>
+                    {{-- jiquipilas --}}
+                    <div style="display: none">{{$jp = 0}}</div>
+                    <div style="display: none">{{$jb = 0}}</div>
+                    <div style="display: none">{{$je = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 2)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$jiquipilas += $item->title}} {{$jp = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$jiquipilasBanco += $item->title}} {{$jb = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$jiquipilasEfectivos += $item->title}} {{$je = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$jp != null ? $jp : '0'}} - {{$jb != null ? $jb : '0'}} - {{$je != null ? $je : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$jp}}</small></small>
                     </td>
-                    <td> {{-- catazaja --}}
-                        <div style="display: none">{{$cap = null}}</div>
-                        <div style="display: none">{{$cab = null}}</div>
-                        <div style="display: none">{{$cae = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 3)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$catazaja += $item->title}} {{$cap = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$catazajaBanco += $item->title}} {{$cab = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$catazajaEfectivos += $item->title}} {{$cae = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$jb}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$je}}</small></small>
+                    </td>
+                    {{-- catazaja --}}
+                    <div style="display: none">{{$cap = 0}}</div>
+                    <div style="display: none">{{$cab = 0}}</div>
+                    <div style="display: none">{{$cae = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 3)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$catazaja += $item->title}} {{$cap = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$catazajaBanco += $item->title}} {{$cab = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$catazajaEfectivos += $item->title}} {{$cae = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$cap != null ? $cap : '0'}} - {{$cab != null ? $cab : '0'}} - {{$cae != null ? $cae : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$cap}}</small></small>
                     </td>
-                    <td> {{-- reforma --}}
-                        <div style="display: none">{{$rp = null}}</div>
-                        <div style="display: none">{{$rb = null}}</div>
-                        <div style="display: none">{{$re = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 4)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$reforma += $item->title}} {{$rp = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$reformaBanco += $item->title}} {{$rb = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$reformaEfectivos += $item->title}} {{$re = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$cab}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$cae}}</small></small>
+                    </td>
+                    {{-- reforma --}}
+                    <div style="display: none">{{$rp = 0}}</div>
+                    <div style="display: none">{{$rb = 0}}</div>
+                    <div style="display: none">{{$re = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 4)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$reforma += $item->title}} {{$rp = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$reformaBanco += $item->title}} {{$rb = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$reformaEfectivos += $item->title}} {{$re = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$rp != null ? $rp : '0'}} - {{$rb != null ? $rb : '0'}} - {{$re != null ? $re : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$rp}}</small></small>
                     </td>
-                    <td> {{-- tapachula --}}
-                        <div style="display: none">{{$tp = null}}</div>
-                        <div style="display: none">{{$tb = null}}</div>
-                        <div style="display: none">{{$te = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 5)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$tapachula += $item->title}} {{$tp = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$tapachulaBanco += $item->title}} {{$tb = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$tapachulaEfectivos += $item->title}} {{$te = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$rb}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$re}}</small></small>
+                    </td>
+                    {{-- tapachula --}}
+                    <div style="display: none">{{$tp = 0}}</div>
+                    <div style="display: none">{{$tb = 0}}</div>
+                    <div style="display: none">{{$te = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 5)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$tapachula += $item->title}} {{$tp = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$tapachulaBanco += $item->title}} {{$tb = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$tapachulaEfectivos += $item->title}} {{$te = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$tp != null ? $tp : '0'}} - {{$tb != null ? $tb : '0'}} - {{$te != null ? $te : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$tp}}</small></small>
                     </td>
-                    <td> {{-- san cristobal --}}
-                        <div style="display: none">{{$sp = null}}</div>
-                        <div style="display: none">{{$sb = null}}</div>
-                        <div style="display: none">{{$se = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 6)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$sanCristobal += $item->title}} {{$sp = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$sanCristobalBanco += $item->title}} {{$sb = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$sanCristobalEfectivos += $item->title}} {{$se = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$tb}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$te}}</small></small>
+                    </td>
+                    {{-- san cristobal --}}
+                    <div style="display: none">{{$sp = 0}}</div>
+                    <div style="display: none">{{$sb = 0}}</div>
+                    <div style="display: none">{{$se = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 6)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$sanCristobal += $item->title}} {{$sp = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$sanCristobalBanco += $item->title}} {{$sb = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$sanCristobalEfectivos += $item->title}} {{$se = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$sp != null ? $sp : '0'}} - {{$sb != null ? $sb : '0'}} - {{$se != null ? $se : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$sp}}</small></small>
                     </td>
-                    <td> {{-- tuxtla --}}
-                        <div style="display: none">{{$tup = null}}</div>
-                        <div style="display: none">{{$tub = null}}</div>
-                        <div style="display: none">{{$tue = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 7)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$tuxtla += $item->title}} {{$tup = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$tuxtlaBanco += $item->title}} {{$tub = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$tuxtlaEfectivos += $item->title}} {{$tue = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$sb}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$se}}</small></small>
+                    </td>
+                    {{-- tuxtla --}}
+                    <div style="display: none">{{$tup = 0}}</div>
+                    <div style="display: none">{{$tub = 0}}</div>
+                    <div style="display: none">{{$tue = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 7)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$tuxtla += $item->title}} {{$tup = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$tuxtlaBanco += $item->title}} {{$tub = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$tuxtlaEfectivos += $item->title}} {{$tue = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$tup != null ? $tup : '0'}} - {{$tub != null ? $tub : '0'}} - {{$tue != null ? $tue : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$tup}}</small></small>
                     </td>
-                    <td> {{-- tonala --}}
-                        <div style="display: none">{{$top = null}}</div>
-                        <div style="display: none">{{$tob = null}}</div>
-                        <div style="display: none">{{$toe = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 8)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$tonala += $item->title}} {{$top = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$tonalaBanco += $item->title}} {{$tob = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$tonalaEfectivos += $item->title}} {{$toe = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$tub}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$tue}}</small></small>
+                    </td>
+                    {{-- tonala --}}
+                    <div style="display: none">{{$top = 0}}</div>
+                    <div style="display: none">{{$tob = 0}}</div>
+                    <div style="display: none">{{$toe = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 8)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$tonala += $item->title}} {{$top = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$tonalaBanco += $item->title}} {{$tob = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$tonalaEfectivos += $item->title}} {{$toe = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$top != null ? $top : '0'}} - {{$tob != null ? $tob : '0'}} - {{$toe != null ? $toe : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$top}}</small></small>
                     </td>
-                    <td> {{-- ocosingo --}}
-                        <div style="display: none">{{$op = null}}</div>
-                        <div style="display: none">{{$ob = null}}</div>
-                        <div style="display: none">{{$oe = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 9)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$ocosingo += $item->title}} {{$op = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$ocosingoBanco += $item->title}} {{$ob = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$ocosingoEfectivos += $item->title}} {{$oe = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$tob}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$toe}}</small></small>
+                    </td>
+                    {{-- ocosingo --}}
+                    <div style="display: none">{{$op = 0}}</div>
+                    <div style="display: none">{{$ob = 0}}</div>
+                    <div style="display: none">{{$oe = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 9)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$ocosingo += $item->title}} {{$op = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$ocosingoBanco += $item->title}} {{$ob = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$ocosingoEfectivos += $item->title}} {{$oe = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$op != null ? $op : '0'}} - {{$ob != null ? $ob : '0'}} - {{$oe != null ? $oe : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$op}}</small></small>
                     </td>
-                    <td> {{-- villaflores --}}
-                        <div style="display: none">{{$vp = null}}</div>
-                        <div style="display: none">{{$vb = null}}</div>
-                        <div style="display: none">{{$ve = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 10)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$villaflores += $item->title}} {{$vp = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$villafloresBanco += $item->title}} {{$vb = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$villafloresEfectivos += $item->title}} {{$ve = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$ob}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$oe}}</small></small>
+                    </td>
+                    {{-- villaflores --}}
+                    <div style="display: none">{{$vp = 0}}</div>
+                    <div style="display: none">{{$vb = 0}}</div>
+                    <div style="display: none">{{$ve = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 10)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$villaflores += $item->title}} {{$vp = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$villafloresBanco += $item->title}} {{$vb = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$villafloresEfectivos += $item->title}} {{$ve = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$vp != null ? $vp : '0'}} - {{$vb != null ? $vb : '0'}} - {{$ve != null ? $ve : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$vp}}</small></small>
                     </td>
-                    <td> {{-- yajalon --}}
-                        <div style="display: none">{{$yp = null}}</div>
-                        <div style="display: none">{{$yb = null}}</div>
-                        <div style="display: none">{{$ye = null}}</div>
-                        @foreach ($group as $item)
-                            @if ($item->id_unidad == 11)
-                                @if ($item->backgroundColor == null) 
-                                    <div style="display: none">{{$yajalon += $item->title}} {{$yp = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#fceb30')
-                                    <div style="display: none">{{$yajalonBanco += $item->title}} {{$yb = $item->title}}</div>
-                                @elseif ($item->backgroundColor == '#00ff04')
-                                    <div style="display: none">{{$yajalonEfectivos += $item->title}} {{$ye = $item->title}}</div>
-                                @endif
+                    <td>
+                        <small><small>{{$vb}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$ve}}</small></small>
+                    </td>
+                    {{-- yajalon --}}
+                    <div style="display: none">{{$yp = 0}}</div>
+                    <div style="display: none">{{$yb = 0}}</div>
+                    <div style="display: none">{{$ye = 0}}</div>
+                    @foreach ($group as $item)
+                        @if ($item->id_unidad == 11)
+                            @if ($item->backgroundColor == null) 
+                                <div style="display: none">{{$yajalon += $item->title}} {{$yp = $item->title}} {{$totalPP += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#fceb30')
+                                <div style="display: none">{{$yajalonBanco += $item->title}} {{$yb = $item->title}} {{$totalCB += $item->title}}</div>
+                            @elseif ($item->backgroundColor == '#00ff04')
+                                <div style="display: none">{{$yajalonEfectivos += $item->title}} {{$ye = $item->title}} {{$totalEP += $item->title}}</div>
                             @endif
-                        @endforeach
-                        <small>{{$yp != null ? $yp : '0'}} - {{$yb != null ? $yb : '0'}} - {{$ye != null ? $ye : '0'}}</small>
+                        @endif
+                    @endforeach
+                    <td>
+                        <small><small>{{$yp}}</small></small>
                     </td>
+                    <td>
+                        <small><small>{{$yb}}</small></small>
+                    </td>
+                    <td>
+                        <small><small>{{$ye}}</small></small>
+                    </td>
+                    <td><small><strong><small>{{$totalPP}}</small></strong></small></td>
+                    <td><small><strong><small>{{$totalCB}}</small></strong></small></td>
+                    <td><small><strong><small>{{$totalEP}}</small></strong></small></td>
+                    <div style="display: none">{{$totTotalPP += $totalPP}}</div>
+                    <div style="display: none">{{$totTotalCB += $totalCB}}</div>
+                    <div style="display: none">{{$totTotalEP += $totalEP}}</div>
                 </tr>
             @endforeach
             <tr>
                 <td><strong>Totales</strong></td>
-                <td><small><strong><small>{{$comitan}} - {{$comitanBanco}} - {{$comitanEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$jiquipilas}} - {{$jiquipilasBanco}} - {{$jiquipilasEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$catazaja}} - {{$catazajaBanco}} - {{$catazajaEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$reforma}} - {{$reformaBanco}} - {{$reformaEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$tapachula}} - {{$tapachulaBanco}} - {{$tapachulaEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$sanCristobal}} - {{$sanCristobalBanco}} - {{$sanCristobalEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$tuxtla}} - {{$tuxtlaBanco}} - {{$tuxtlaEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$tonala}} - {{$tonalaBanco}} - {{$tonalaEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$ocosingo}} - {{$ocosingoBanco}} - {{$ocosingoEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$villaflores}} - {{$villafloresBanco}} - {{$villafloresEfectivos}}</small></strong></small></td>
-                <td><small><strong><small>{{$yajalon}} - {{$yajalonBanco}} - {{$yajalonEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$comitan}}</small></strong></small></td>
+                <td><small><strong><small>{{$comitanBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$comitanEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$jiquipilas}}</small></strong></small></td>
+                <td><small><strong><small>{{$jiquipilasBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$jiquipilasEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$catazaja}}</small></strong></small></td>
+                <td><small><strong><small>{{$catazajaBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$catazajaEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$reforma}}</small></strong></small></td>
+                <td><small><strong><small>{{$reformaBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$reformaEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$tapachula}}</small></strong></small></td>
+                <td><small><strong><small>{{$tapachulaBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$tapachulaEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$sanCristobal}}</small></strong></small></td>
+                <td><small><strong><small>{{$sanCristobalBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$sanCristobalEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$tuxtla}}</small></strong></small></td>
+                <td><small><strong><small>{{$tuxtlaBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$tuxtlaEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$tonala}}</small></strong></small></td>
+                <td><small><strong><small>{{$tonalaBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$tonalaEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$ocosingo}}</small></strong></small></td>
+                <td><small><strong><small>{{$ocosingoBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$ocosingoEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$villaflores}}</small></strong></small></td>
+                <td><small><strong><small>{{$villafloresBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$villafloresEfectivos}}</small></strong></small></td>
+                <td><small><strong><small>{{$yajalon}}</small></strong></small></td>
+                <td><small><strong><small>{{$yajalonBanco}}</small></strong></small></td>
+                <td><small><strong><small>{{$yajalonEfectivos}}</small></strong></small></td>
+                <td><small><strong><small class="text-success">{{$totTotalPP}}</small></strong></small></td>
+                <td><small><strong><small class="text-success">{{$totTotalCB}}</small></strong></small></td>
+                <td><small><strong><small class="text-success">{{$totTotalEP}}</small></strong></small></td>
             </tr>
         </tbody>
     </table>

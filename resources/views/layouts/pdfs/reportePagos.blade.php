@@ -116,7 +116,7 @@
         <br>
     </header>
     <footer>
-        <img class="izquierdabot" src="{{ public_path('img/franja.png') }}">
+        {{-- <img class="izquierdabot" src="{{ public_path('img/franja.png') }}"> --}}
         <img class="derechabot" src="{{ public_path('img/icatech-imagen.png') }}">
     </footer>
 
@@ -158,9 +158,9 @@
                     {{-- <th scope="col"><small>Dia</small></th> --}}
                     <th scope="col"><small> Pagos Programados</small></th>
                     <th scope="col"><small>Comentarios</small></th>
-                    <th scope="col"><small>Enviados a la Banca</small></th>
+                    <th colspan="2"><small>Enviados a la Banca</small></th>
                     <th scope="col"><small>Comentarios</small></th>
-                    <th scope="col"><small>Efectivamente Pagados</small></th>
+                    <th colspan="2"><small>Efectivamente Pagados</small></th>
                     <th scope="col"><small>Comentarios</small></th>
                 </tr>
             </thead>
@@ -174,7 +174,13 @@
                             @foreach ($pagosBanca as $banca)
                                 @if ($pago->start == $banca->start)
                                     <small>{{$banca->title}}</small>
-                                    {{-- <td scope="col"><small>{{$banca->title}}</small></td> --}}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td scope="col"> {{-- fecha --}}
+                            @foreach ($pagosBanca as $banca)
+                                @if ($pago->start == $banca->start)
+                                    <small>{{$banca->fecha_registro}}</small>
                                 @endif
                             @endforeach
                         </td>
@@ -191,6 +197,13 @@
                                 @if ($pago->start == $item->start)
                                     <small>{{$item->title}}</small>
                                     {{-- <td scope="col"><small>{{$item->title}}</small></td> --}}
+                                @endif
+                            @endforeach
+                        </td>
+                        <td scope="col">
+                            @foreach ($efectivos as $item)
+                                @if ($pago->start == $item->start)
+                                    <small>{{$banca->fecha_registro}}</small>
                                 @endif
                             @endforeach
                         </td>
