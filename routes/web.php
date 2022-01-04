@@ -37,7 +37,8 @@ Route::post('/Validaciones/enviar', 'ValidacionController@store')->name('validac
 
 Route::get('/plan/inicio', 'PlanSemanalController@index')->name('plan.inicio');
 Route::post('/plan/editar/{id}', 'PlanSemanalController@update')->name('plan.editar');
-Route::get('/plan/reporte/{ejercicio}/{mes}/{direccion}/{semana}', 'PlanSemanalController@reporteSemanal')->name('planSemanal.reporte');
+Route::get('/plan/reporte/{ejercicio}/{direccion}/{semana}', 'PlanSemanalController@reporteSemanal')->name('planSemanal.reporte');
+// {mes}/
 
 Route::get('/Registro/inicio', 'RegistroController@index')->name('registro.inicio');
 Route::post('/Registro/enviar', 'RegistroController@store')->name('registro.enviar');

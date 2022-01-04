@@ -48,7 +48,7 @@
                     </div>
 
                     {{-- mes --}}
-                    <div class="row mt-2">
+                    {{-- <div class="row mt-2">
                         <div class="col-3">Mes</div>
                         <div class="col-4">
                             <select name="mes" class="form-control" id="mes">
@@ -67,7 +67,7 @@
                                 <option {{$mes == '12' ? 'selected' : ''}} value="12">Diciembre</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- direccion --}}
                     <div class="row mt-2">
