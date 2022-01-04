@@ -39,9 +39,9 @@
                         <div class="col-3">Ejercicio</div>
                         <div class="col-4">
                             <select class="custom-select" id="ejercicio" name="ejercicio">
-                                <option value=''>Seleccione...</option>
+                                {{-- <option value=''>Seleccione...</option> --}}
                                 <option {{ $ejercicio == '2021' ? 'selected' : '' }}>2021</option>
-                                <option {{ $ejercicio == '2022' ? 'selected' : '' }}>2022</option>
+                                <option {{ ($ejercicio == '2022' || $ejercicio == null) ? 'selected' : '' }}>2022</option>
                                 <option {{ $ejercicio == '2023' ? 'selected' : '' }}>2023</option>
                                 <option {{ $ejercicio == '2024' ? 'selected' : '' }}>2024</option>
                                 <option {{ $ejercicio == '2025' ? 'selected' : '' }}>2025</option>
@@ -262,10 +262,13 @@
         </div>
 
         @if (!$actividades->isEmpty())
-            <div class="row mt-2">
+            <div class="row my-2">
                 <div class="col d-flex justify-content-end">
                     {{-- <button id="btnEnviar" type="button" class="btn btn-primary btn-lg">Enviar</button> --}}
-                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalSemana">Enviar</button>
+                    <a class="btn btn-primary btn-lg" title="Enviar" href="{{ route('actividades.enviar') }}">
+                        Enviar
+                    </a>
+                    {{-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalSemana">Enviar</button> --}}
                 </div>
             </div>
         @endif

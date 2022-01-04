@@ -41,9 +41,9 @@
                         <div class="col-3">Ejercicio</div>
                         <div class="col-4">
                             <select class="custom-select" id="ejercicio" name="ejercicio">
-                                <option value=''>Seleccione...</option>
+                                {{-- <option value=''>Seleccione...</option> --}}
                                 <option {{ $ejercicio == '2021' ? 'selected' : '' }}>2021</option>
-                                <option {{ $ejercicio == '2022' ? 'selected' : '' }}>2022</option>
+                                <option {{ ($ejercicio == '2022' || $ejercicio == null) ? 'selected' : '' }}>2022</option>
                                 <option {{ $ejercicio == '2023' ? 'selected' : '' }}>2023</option>
                                 <option {{ $ejercicio == '2024' ? 'selected' : '' }}>2024</option>
                                 <option {{ $ejercicio == '2025' ? 'selected' : '' }}>2025</option>

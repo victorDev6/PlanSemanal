@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/Actividades/inicio', 'ActividadesController@index')->name('actividades.inicio');
 Route::post('/Actividades/guardar', 'ActividadesController@store')->name('actividades.store');
 Route::get('/Actividades/{id}/{semana}', 'ActividadesController@destroy')->name('actividades.destroy');
-Route::post('/Actividades/enviar', 'ActividadesController@send')->name('actividades.enviar');
+Route::get('/Actividades/enviar', 'ActividadesController@send')->name('actividades.enviar');
 Route::post('/Actividades/editar/{id}/{semana}', 'ActividadesController@update')->name('actividades.editar');
 Route::post('/Actividades/editar2', 'ActividadesController@update2')->name('actividades.editar2');
 
